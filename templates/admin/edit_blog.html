@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Blog Post - Admin{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="admin-content-full">
+        <div class="admin-header">
+            <h1><i class="bi bi-journal-text me-2"></i>Edit Blog Post</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+        
+        <div class="admin-form-card">
+            <form method="POST" action="{{ url_for('admin_edit_blog', id=post.id) }}">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title *</label>
+                    <input type="text" class="form-control" id="title" name="title" 
+                           value="{{ post.title }}" required>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="category" name="category" 
+                               value="{{ post.category or '' }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="published_date" class="form-label">Published Date</label>
+                        <input type="date" class="form-control" id="published_date" name="published_date" 
+                               value="{{ post.published_date.strftime('%Y-%m-%d') if post.published_date else '' }}">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+                    <input type="text" class="form-control" id="author" name="author" 
+                           value="{{ post.author or '' }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="featured_image" class="form-label">Featured Image Filename or URL</label>
+                    <input type="text" class="form-control" id="featured_image" name="featured_image" 
+                           value="{{ post.featured_image or '' }}" placeholder="e.g. blog-1.jpg">
+                    <small class="form-text text-muted">Filename in static/images/blog/ or external URL</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="excerpt" class="form-label">Excerpt</label>
+                    <textarea class="form-control" id="excerpt" name="excerpt" rows="3">{{ post.excerpt or '' }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="content" class="form-label">Content *</label>
+                    <textarea class="form-control" id="content" name="content" rows="10" required>{{ post.content or '' }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="tags" class="form-label">Tags (comma separated)</label>
+                    <input type="text" class="form-control" id="tags" name="tags" 
+                           value="{{ post.tags or '' }}" placeholder="tag1, tag2, tag3">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="seo_keywords" class="form-label">SEO Keywords</label>
+                    <input type="text" class="form-control" id="seo_keywords" name="seo_keywords" 
+                           value="{{ post.seo_keywords or '' }}">
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>Update Blog Post
+                    </button>
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

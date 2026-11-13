@@ -1,0 +1,176 @@
+/* ============================================
+   MATERIALS PAGE - Materials Styles
+   ============================================ */
+
+.materials-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.materials-header-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+    background-size: 100% 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.materials-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    text-shadow: 0 3px 25px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.materials-header p {
+    font-size: 1.25rem;
+    color: #ffffff !important;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 2;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - Materials Page
+   ============================================ */
+
+/* Extra Small Devices (Phones, 0px to 575px) */
+@media (max-width: 575px) {
+    .materials-header h1 {
+        font-size: 2rem;
+    }
+    .materials-header {
+        padding: 2.5rem 0;
+    }
+    .materials-filters {
+        padding: 1.5rem;
+    }
+}
+
+/* Small Devices (Landscape Phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .materials-header h1 {
+        font-size: 2.25rem;
+    }
+}
+
+/* Medium Devices (Tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .materials-header {
+        padding: 4.5rem 0;
+    }
+    .materials-header h1 {
+        font-size: 3rem;
+    }
+}
+
+/* Mobile Responsive (Legacy - 768px and below) */
+@media (max-width: 768px) {
+    .materials-header h1 {
+        font-size: 2.5rem;
+    }
+    .materials-header {
+        padding: 3rem 0;
+    }
+}
+
+/* Materials Filters */
+.materials-filters {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 0.5px solid var(--border-color);
+    box-shadow: var(--shadow);
+    margin-bottom: 3rem;
+}
+
+[data-theme="dark"] .materials-filters {
+    background: rgba(28, 28, 30, 0.7);
+}
+
+.materials-filters .form-select,
+#materialTypeFilter {
+    border-radius: 12px;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    border: 0.5px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .materials-filters .form-select,
+[data-theme="dark"] #materialTypeFilter,
+[data-theme="dark"] #finishFilter {
+    background: rgba(44, 44, 46, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="dark"] .materials-filters .form-select:focus,
+[data-theme="dark"] #materialTypeFilter:focus,
+[data-theme="dark"] #finishFilter:focus {
+    background: rgba(58, 58, 60, 0.95) !important;
+    border-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+.materials-filters .form-select option,
+#materialTypeFilter option,
+#finishFilter option {
+    background: #1c1c1e !important;
+    color: #ffffff !important;
+    padding: 0.75rem;
+}
+
+/* Material Cards */
+.material-item {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.material-item.hidden {
+    display: none !important;
+}
+
+.material-card {
+    transition: all 0.4s ease;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.material-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.material-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.5s ease;
+}
+
+.material-card:hover img {
+    transform: scale(1.04);
+}
+

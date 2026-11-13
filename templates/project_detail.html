@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} - {{ business_name }} | Project Details{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/project_detail.css') }}">
+{% endblock %}
+
+{% block structured_data %}
+{% set proj_images = parse_json(project.images) %}
+{% set first_img = proj_images[0] if proj_images and proj_images|length > 0 else 'placeholder.jpg' %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "{{ project.title }}",
+    "description": "{{ project.short_description or project.description[:200] if project.description else '' }}",
+    "image": "{{ url_for('static', filename='images/projects/' + first_img, _external=True) }}",
+    "datePublished": "{{ project.completion_date.strftime('%Y-%m-%d') if project.completion_date else project.created_at.strftime('%Y-%m-%d') }}",
+    "author": {
+        "@type": "Organization",
+        "name": "{{ business_name }}"
+    },
+    "locationCreated": {
+        "@type": "Place",
+        "name": "{{ project.location }}"
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Project Hero -->
+<section class="project-hero py-5">
+    <div class="container">
+        {% set p_images = parse_json(project.images) %}
+        {% set hero_images = p_images[:6] if p_images else [] %}
+        <div id="projectCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000" data-bs-pause="hover">
+            <div class="carousel-indicators">
+                {% for image in hero_images %}
+                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+                {% for image in hero_images %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ url_for('static', filename='images/projects/' + image) }}" 
+                             class="d-block w-100" 
+                             alt="{{ project.title }}" 
+                             onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                    </div>
+                {% else %}
+                    <div class="carousel-item active">
+                        <img src="{{ url_for('static', filename='images/projects/placeholder.jpg') }}" 
+                             class="d-block w-100" 
+                             alt="{{ project.title }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="mb-3">{{ project.title }}</h1>
+                <div class="project-meta mb-4">
+                    <span class="badge bg-primary me-2">{{ project.category.split(',')[0] if project.category else 'Project' }}</span>
+                    <span class="badge bg-{{ 'success' if project.status == 'completed' else 'info' }}">{{ project.status|title }}</span>
+                </div>
+
+                <!-- Social Share Buttons -->
+                <div class="social-share-buttons mb-4">
+                    <span class="me-2"><strong>Share:</strong></span>
+                    <button class="btn btn-sm btn-outline-primary share-btn" data-platform="whatsapp" title="Share on WhatsApp">
+                        <i class="bi bi-whatsapp"></i> WhatsApp
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary share-btn" data-platform="facebook" title="Share on Facebook">
+                        <i class="bi bi-facebook"></i> Facebook
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary share-btn" data-platform="twitter" title="Share on Twitter">
+                        <i class="bi bi-twitter"></i> Twitter
+                    </button>
+                    <button class="btn btn-sm btn-outline-success copy-url-btn" title="Copy URL">
+                        <i class="bi bi-link-45deg"></i> Copy URL
+                    </button>
+                </div>
+
+                <!-- Case Study Section -->
+                {% if project.case_study_format %}
+                <div class="case-study-section">
+                    <!-- Client Problem -->
+                    {% if project.challenge %}
+                    <div class="case-study-step mb-5">
+                        <h3 class="mb-3">Client Challenge</h3>
+                        <p>{{ project.challenge }}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Our Approach -->
+                    {% if project.approach %}
+                    <div class="case-study-step mb-5">
+                        <h3 class="mb-3">Our Approach</h3>
+                        <p>{{ project.approach }}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Implementation -->
+                    {% if project.implementation %}
+                    <div class="case-study-step mb-5">
+                        <h3 class="mb-3">Implementation</h3>
+                        <p>{{ project.implementation }}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Results -->
+                    {% if project.results %}
+                    <div class="case-study-step mb-5">
+                        <h3 class="mb-3">Results & Impact</h3>
+                        <p>{{ project.results }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="project-description mb-5">
+                    <p>{{ project.description }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Before/After Slider -->
+                {% set before_after = parse_json(project.before_after_images) %}
+                {% if before_after and before_after|length > 0 %}
+                <div class="before-after-section mb-5">
+                    <h3 class="mb-4">Before & After</h3>
+                    <div class="before-after-slider">
+                        <div class="slider-container">
+                            {% if before_after|length >= 2 %}
+                                <img src="{{ url_for('static', filename='images/before-after/' + before_after[0]) }}" 
+                                     alt="Before" class="before-image"
+                                     loading="lazy"
+                                     onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                                <img src="{{ url_for('static', filename='images/before-after/' + before_after[1]) }}" 
+                                     alt="After" class="after-image"
+                                     loading="lazy"
+                                     onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                            {% elif before_after|length == 1 %}
+                                <img src="{{ url_for('static', filename='images/before-after/' + before_after[0]) }}" 
+                                     alt="Before/After" class="before-image"
+                                     loading="lazy"
+                                     onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                            {% endif %}
+                            <div class="slider-handle">
+                                <i class="bi bi-arrows-expand"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="project-info-card p-4 bg-light rounded shadow-sm">
+                    <h5 class="mb-4 fw-bold"><i class="bi bi-info-circle text-primary me-2"></i>Project Information</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><strong>Category:</strong> <span class="badge bg-primary ms-1">{{ project.category }}</span></li>
+                        <li class="mb-3"><strong>Client Type:</strong> {{ project.client_type or 'Private Client' }}</li>
+                        {% if project.architect_name %}
+                        <li class="mb-3"><strong>Architect:</strong> {{ project.architect_name }}</li>
+                        {% endif %}
+                        <li class="mb-3"><strong>Location:</strong> {{ project.location }}</li>
+                        {% if project.duration %}
+                        <li class="mb-3"><strong>Duration:</strong> {{ project.duration }}</li>
+                        {% endif %}
+                        {% if project.scope %}
+                        <li class="mb-3"><strong>Scope of Work:</strong> {{ project.scope }}</li>
+                        {% endif %}
+                        <li class="mb-3"><strong>Status:</strong> <span class="badge bg-success ms-1">{{ project.status|title }}</span></li>
+                        {% if project.materials %}
+                        <li class="mb-3">
+                            <strong>Materials Used:</strong>
+                            <ul class="mt-2 text-muted small">
+                                {% for material in split_benefits(project.materials) %}
+                                <li>{{ material }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    <a href="{{ url_for('contact') }}" class="btn btn-primary w-100 mt-3 shadow-sm">
+                        <i class="bi bi-telephone-outbound me-2"></i>Get Quote For Similar Work
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complete Full-Width Photo Gallery for this Category -->
+        {% set gallery_imgs = parse_json(project.images) %}
+        {% if gallery_imgs and gallery_imgs|length > 0 %}
+        <div class="full-project-gallery-section mt-5 pt-4 border-top">
+            <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                <div>
+                    <h2 class="h3 fw-bold mb-1">
+                        <i class="bi bi-images text-primary me-2"></i>Complete Photo Gallery
+                    </h2>
+                    <p class="text-muted mb-0">
+                        Explore all <strong>{{ gallery_imgs|length }} authentic site photos</strong> for {{ project.title }}. Click any image to view in high resolution.
+                    </p>
+                </div>
+                <div class="mt-2 mt-md-0">
+                    <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill shadow-sm">
+                        <i class="bi bi-camera-fill me-1"></i> {{ gallery_imgs|length }} Real Work Photos
+                    </span>
+                </div>
+            </div>
+
+            <div class="row g-3" id="galleryGrid">
+                {% for image in gallery_imgs %}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="gallery-card position-relative overflow-hidden rounded-3 shadow-sm h-100" 
+                         style="background: #f8f9fa; cursor: pointer; border: 1px solid rgba(0,0,0,0.08);"
+                         data-image-index="{{ loop.index0 }}"
+                         data-image-src="{{ url_for('static', filename='images/projects/' + image) }}">
+                        <img src="{{ url_for('static', filename='images/projects/' + image) }}" 
+                             class="w-100 gallery-thumbnail" 
+                             alt="{{ project.title }} - Photo {{ loop.index }}"
+                             loading="lazy"
+                             style="height: 160px; object-fit: cover; transition: transform 0.3s ease;"
+                             onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                        <span class="badge bg-dark bg-opacity-75 position-absolute bottom-0 start-0 m-1 text-white small" style="font-size: 0.7rem; pointer-events: none; z-index: 2;">
+                            #{{ loop.index }}
+                        </span>
+                        <div class="gallery-hover-overlay d-flex align-items-center justify-content-center" 
+                             style="position: absolute; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; transition: opacity 0.2s ease;">
+                            <i class="bi bi-arrows-fullscreen text-white fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Related Projects -->
+        {% if related_projects %}
+        <div class="related-projects mt-5 pt-4 border-top">
+            <h3 class="mb-4 fw-bold"><i class="bi bi-collection me-2"></i>Other Marble Projects</h3>
+            <div class="row g-4">
+                {% for related in related_projects %}
+                {% set rel_imgs = parse_json(related.images) %}
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm" onclick="window.location.href='{{ url_for('project_detail', project_id=related.id) }}'" style="cursor: pointer; transition: transform 0.2s ease;">
+                        <div class="position-relative">
+                            {% if rel_imgs and rel_imgs|length > 0 %}
+                                <img src="{{ url_for('static', filename='images/projects/' + rel_imgs[0]) }}" 
+                                     class="card-img-top" 
+                                     alt="{{ related.title }}"
+                                     style="height: 200px; object-fit: cover;"
+                                     onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/projects/placeholder.jpg') }}" 
+                                     class="card-img-top" 
+                                     alt="{{ related.title }}"
+                                     style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <span class="badge bg-dark bg-opacity-75 position-absolute top-0 start-0 m-2 text-white small">
+                                <i class="bi bi-images me-1"></i>{{ rel_imgs|length if rel_imgs else 0 }} Photos
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-2">{{ related.title }}</h5>
+                            <p class="card-text text-muted small"><i class="bi bi-geo-alt me-1 text-primary"></i>{{ related.location }}</p>
+                            <span class="btn btn-sm btn-outline-primary w-100">View All Photos <i class="bi bi-arrow-right ms-1"></i></span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Interactive Fullscreen Lightbox Modal with Next / Previous -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-dark text-white border-0 shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <div class="d-flex align-items-center gap-2">
+                    <h5 class="modal-title fs-6 text-light mb-0" id="lightboxTitle">{{ project.title }}</h5>
+                    <span class="badge bg-primary" id="lightboxCounter">Photo 1 of {{ gallery_imgs|length if gallery_imgs else 0 }}</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-2 position-relative d-flex align-items-center justify-content-center" style="min-height: 480px; max-height: 82vh;">
+                <!-- Prev Button -->
+                <button type="button" class="btn btn-outline-light rounded-circle position-absolute start-0 ms-3 top-50 translate-middle-y shadow" id="lightboxPrev" style="z-index: 10; width: 48px; height: 48px;" title="Previous (Left Arrow)">
+                    <i class="bi bi-chevron-left fs-5"></i>
+                </button>
+
+                <!-- Current Image -->
+                <img src="" class="img-fluid rounded shadow-sm" id="modalImage" alt="Enlarged Project Photo" style="max-height: 75vh; max-width: 100%; object-fit: contain;">
+
+                <!-- Next Button -->
+                <button type="button" class="btn btn-outline-light rounded-circle position-absolute end-0 me-3 top-50 translate-middle-y shadow" id="lightboxNext" style="z-index: 10; width: 48px; height: 48px;" title="Next (Right Arrow)">
+                    <i class="bi bi-chevron-right fs-5"></i>
+                </button>
+            </div>
+            <div class="modal-footer border-0 pt-0 justify-content-between text-muted small">
+                <span><i class="bi bi-keyboard me-1"></i> Use left/right arrow keys or buttons to navigate</span>
+                <a href="{{ url_for('contact') }}" class="btn btn-sm btn-primary">Enquire About This Work</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/project_detail.js') }}"></script>
+{% endblock %}
+

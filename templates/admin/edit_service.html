@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Service - Admin{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="admin-content-full">
+        <div class="admin-header">
+            <h1><i class="bi bi-tools me-2"></i>Edit Service</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+        
+        <div class="admin-form-card">
+            <form method="POST" action="{{ url_for('admin_edit_service', id=service.id) }}">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Service Name *</label>
+                    <input type="text" class="form-control" id="name" name="name" 
+                           value="{{ service.name }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="icon" class="form-label">Icon (Bootstrap Icon Class)</label>
+                    <input type="text" class="form-control" id="icon" name="icon" 
+                           value="{{ service.icon or '' }}" placeholder="e.g., bi-tools, bi-hammer">
+                    <small class="form-text text-muted">Use Bootstrap Icons class name (without 'bi-' prefix)</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4">{{ service.description or '' }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="benefits" class="form-label">Benefits (one per line)</label>
+                    <textarea class="form-control" id="benefits" name="benefits" rows="6" 
+                              placeholder="Benefit 1&#10;Benefit 2&#10;Benefit 3">{{ service.benefits or '' }}</textarea>
+                    <small class="form-text text-muted">Enter each benefit on a new line</small>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>Update Service
+                    </button>
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

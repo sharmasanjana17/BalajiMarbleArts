@@ -1,0 +1,20 @@
+# Python Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environments
+env/
+venv/
+ENV/
+.venv/
+
+# Temporary / OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Raw Source Photos (Already processed into static/images/projects)
+marble_photos_source/

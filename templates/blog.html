@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Blog - {{ business_name }} | Marble Care Tips & Design Ideas{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="blog-header py-5">
+    <div class="blog-header-pattern"></div>
+    <div class="container position-relative">
+        <h1 class="text-center mb-4 fade-in">Blog & Resources</h1>
+        <p class="text-center lead fade-in" style="animation-delay: 0.2s;">Marble care tips, design inspiration, and industry insights</p>
+    </div>
+</section>
+
+<section class="py-5 scroll-fade-in">
+    <div class="container">
+        <div class="row g-4">
+            {% for post in posts %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 blog-card">
+                    {% if post.featured_image %}
+                    <div class="blog-image-wrapper">
+                        {% set blog_images = [] %}
+                        {% if post.images and post.images.strip() %}
+                            {% set blog_images = parse_json(post.images) if post.images else [] %}
+                        {% endif %}
+                        {% if blog_images|length > 1 %}
+                        <div class="project-image-carousel" data-carousel-id="blog-{{ post.id }}">
+                            {% for image in blog_images %}
+                                {% if image.strip() %}
+                                <div class="carousel-image-item {% if loop.first %}active{% endif %}">
+                                    <img src="{{ url_for('static', filename='images/blog/' + image.strip()) }}" 
+                                         class="card-img-top blog-image" 
+                                         alt="{{ post.title }}"
+                                         loading="lazy"
+                                         onerror="this.src='{{ url_for('static', filename='images/blog/placeholder.jpg') }}'; this.onerror=null;">
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/blog/' + post.featured_image) }}" 
+                             class="card-img-top blog-image" 
+                             alt="{{ post.title }}"
+                             loading="lazy"
+                             onerror="this.src='{{ url_for('static', filename='images/blog/placeholder.jpg') }}'; this.onerror=null;">
+                        {% endif %}
+                        <div class="blog-overlay">
+                            <a href="{{ url_for('blog_post', post_id=post.id) }}" class="btn btn-light btn-sm">
+                                <i class="bi bi-arrow-right me-2"></i>Read More
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-3">{{ post.category }}</span>
+                        <h5 class="card-title mb-3">{{ post.title }}</h5>
+                        <p class="card-text small text-muted mb-3">{{ post.excerpt or post.content[:150] }}...</p>
+                        <div class="blog-meta d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-calendar me-1"></i>{{ post.published_date.strftime('%B %d, %Y') if post.published_date else '' }}
+                            </small>
+                            <a href="{{ url_for('blog_post', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                                Read More <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if not posts %}
+        <div class="text-center py-5">
+            <p class="text-muted">No blog posts available yet. Check back soon!</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/blog.js') }}"></script>
+{% endblock %}
+

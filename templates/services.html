@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Services - {{ business_name }} | Marble Installation Services{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/services.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="services-header py-5">
+    <div class="services-header-pattern"></div>
+    <div class="container position-relative">
+        <h1 class="text-center mb-4 fade-in">Our Services</h1>
+        <p class="text-center lead fade-in" style="animation-delay: 0.2s;">Comprehensive marble installation and
+            finishing services</p>
+    </div>
+</section>
+
+<section class="py-5 scroll-fade-in">
+    <div class="container">
+        <h2 class="text-center mb-5 section-title">What We Offer</h2>
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 service-card">
+                    <div class="card-body text-center p-4">
+                        <div class="service-icon">
+                            {% if 'flooring' in service.name|lower %}
+                            <i class="bi bi-grid-3x3-gap"></i>
+                            {% elif 'wall' in service.name|lower and 'cladding' in service.name|lower %}
+                            <i class="bi bi-square"></i>
+                            {% elif 'feature' in service.name|lower %}
+                            <i class="bi bi-stars"></i>
+                            {% elif 'staircase' in service.name|lower %}
+                            <i class="bi bi-ladder"></i>
+                            {% elif 'countertop' in service.name|lower %}
+                            <i class="bi bi-app"></i>
+                            {% elif 'exterior' in service.name|lower %}
+                            <i class="bi bi-building"></i>
+                            {% elif 'bathroom' in service.name|lower %}
+                            <i class="bi bi-droplet"></i>
+                            {% elif 'custom' in service.name|lower or 'design' in service.name|lower %}
+                            <i class="bi bi-palette"></i>
+                            {% else %}
+                            <i class="bi bi-hammer"></i>
+                            {% endif %}
+                        </div>
+                        <h4 class="card-title mt-3 mb-3">{{ service.name }}</h4>
+                        <p class="card-text">{{ service.description }}</p>
+                        {% if service.benefits %}
+                        <ul class="list-unstyled text-start mt-3">
+                            {% for benefit in split_benefits(service.benefits) %}
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>{{ benefit }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <a href="{{ url_for('contact') }}" class="btn btn-primary mt-3">
+                            <i class="bi bi-chat-dots me-2"></i>Get Quote
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/services.js') }}"></script>
+{% endblock %}

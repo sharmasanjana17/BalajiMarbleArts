@@ -1,0 +1,579 @@
+a
+/* ============================================
+   FAQ PAGE - Modern Redesign
+   ============================================ */
+
+.faq-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.faq-header-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.08;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    background-size: 100% 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.faq-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    text-shadow: 0 3px 25px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    margin-bottom: 1rem;
+}
+
+.faq-header p {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 2;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .faq-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .faq-header {
+        padding: 4rem 0;
+    }
+
+    .faq-header p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Main Content Section */
+.faq-content-section {
+    padding: 5rem 0;
+    background: var(--bg-primary);
+}
+
+[data-theme="dark"] .faq-content-section {
+    background: var(--bg-primary);
+}
+
+/* Search and Filter Container */
+.faq-controls {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .faq-controls {
+    background: rgba(28, 28, 30, 0.8);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.faq-controls .row {
+    align-items: center;
+}
+
+/* Search Input */
+#faqSearch {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(var(--primary-color-rgb), 0.2) !important;
+    border-radius: 12px !important;
+    padding: 1rem 1.5rem 1rem 3rem !important;
+    font-size: 1rem !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#faqSearch:focus {
+    outline: none !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb), 0.15), 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    background: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+#faqSearch::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+}
+
+#faqSearch:hover {
+    border-color: rgba(var(--primary-color-rgb), 0.4) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] #faqSearch {
+    background: rgba(44, 44, 46, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #faqSearch:focus {
+    border-color: var(--primary-color) !important;
+    background: rgba(44, 44, 46, 1) !important;
+    box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb), 0.2), 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] #faqSearch:hover {
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] #faqSearch::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Search Icon */
+.faq-search-icon {
+    color: var(--text-secondary) !important;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.position-relative:has(#faqSearch:focus) .faq-search-icon,
+.position-relative:has(#faqSearch:hover) .faq-search-icon {
+    color: var(--primary-color) !important;
+}
+
+.position-relative:has(#faqSearch:focus) .faq-search-icon {
+    transform: translateY(-50%) scale(1.15);
+}
+
+/* Category Filter */
+#categoryFilter {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(var(--primary-color-rgb), 0.2) !important;
+    border-radius: 12px !important;
+    padding: 1rem 1.5rem !important;
+    font-size: 1rem !important;
+    color: var(--text-primary) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+#categoryFilter:focus {
+    outline: none !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb), 0.1) !important;
+    background: #ffffff !important;
+}
+
+[data-theme="dark"] #categoryFilter {
+    background: rgba(44, 44, 46, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] #categoryFilter:focus {
+    border-color: var(--primary-color) !important;
+    background: rgba(44, 44, 46, 1) !important;
+}
+
+/* Modern Accordion Design */
+.accordion {
+    --bs-accordion-border-width: 0;
+    --bs-accordion-border-radius: 0;
+    --bs-accordion-inner-border-radius: 0;
+}
+
+.accordion-item {
+    border: none !important;
+    border-radius: 20px !important;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 2px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.accordion-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-color: var(--primary-color) !important;
+}
+
+[data-theme="dark"] .accordion-item {
+    background: rgba(28, 28, 30, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .accordion-item:hover {
+    background: rgba(44, 44, 46, 0.98) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Accordion Button */
+.accordion-button {
+    background: transparent !important;
+    border: none !important;
+    padding: 2rem 2.5rem !important;
+    font-weight: 600 !important;
+    font-size: 1.15rem !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+    cursor: pointer !important;
+    position: relative;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: none !important;
+}
+
+.accordion-button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.accordion-button:hover::before {
+    opacity: 1;
+}
+
+.accordion-button:hover {
+    background: rgba(var(--primary-color-rgb), 0.05) !important;
+    color: var(--primary-color) !important;
+    padding-left: 3rem !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.accordion-button:not(.collapsed)::before {
+    opacity: 0;
+}
+
+.accordion-button:not(.collapsed):hover {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    color: #ffffff !important;
+    padding-left: 2.5rem !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border: none !important;
+}
+
+.accordion-button:focus-visible {
+    outline: 3px solid var(--primary-color) !important;
+    outline-offset: 2px;
+    border-radius: 20px;
+}
+
+/* Chevron Icon */
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(0);
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+.accordion-button:hover::after {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(142deg) brightness(104%) contrast(101%);
+}
+
+.accordion-button:not(.collapsed)::after {
+    filter: brightness(0) invert(1);
+    transform: rotate(180deg);
+}
+
+.accordion-button:not(.collapsed):hover::after {
+    filter: brightness(0) invert(1);
+}
+
+/* Accordion Body */
+.accordion-body {
+    padding: 0 2.5rem 2.5rem 2.5rem !important;
+    color: var(--text-primary) !important;
+    font-size: 1.05rem !important;
+    line-height: 1.9 !important;
+    background: transparent !important;
+    font-weight: 400;
+}
+
+.accordion-item:not(:has(.accordion-button.collapsed)) .accordion-body {
+    padding-top: 0 !important;
+}
+
+[data-theme="dark"] .accordion-body {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="dark"] .accordion-button {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="dark"] .accordion-button:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: var(--primary-color) !important;
+}
+
+[data-theme="dark"] .accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    color: #ffffff !important;
+}
+
+/* CTA Section */
+.faq-cta {
+    background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.1), rgba(var(--secondary-color-rgb), 0.1));
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin-top: 4rem;
+    border: 2px solid rgba(var(--primary-color-rgb), 0.2);
+}
+
+[data-theme="dark"] .faq-cta {
+    background: rgba(28, 28, 30, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.faq-cta h4 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.faq-cta p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.faq-cta .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+/* Empty State */
+.faq-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-secondary);
+}
+
+.faq-empty p {
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - FAQ Page
+   ============================================ */
+
+/* Extra Small Devices (Phones, 0px to 575px) */
+@media (max-width: 575px) {
+    .faq-header {
+        padding: 3rem 0;
+    }
+
+    .faq-header h1 {
+        font-size: 2rem;
+    }
+
+    .faq-header p {
+        font-size: 1rem;
+    }
+
+    .faq-content-section {
+        padding: 2.5rem 0;
+    }
+
+    .faq-controls {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .accordion-button {
+        padding: 1.25rem 1.25rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    .accordion-button:hover {
+        padding-left: 1.75rem !important;
+    }
+
+    .accordion-body {
+        padding: 0 1.25rem 1.25rem 1.25rem !important;
+        font-size: 0.9rem !important;
+        line-height: 1.7 !important;
+    }
+
+    #faqSearch,
+    #categoryFilter {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    .faq-cta {
+        padding: 1.5rem 1rem;
+        margin-top: 2rem;
+    }
+
+    .faq-cta h4 {
+        font-size: 1.25rem;
+    }
+
+    .faq-cta p {
+        font-size: 0.95rem;
+    }
+}
+
+/* Small Devices (Landscape Phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .faq-header h1 {
+        font-size: 2.25rem;
+    }
+
+    .faq-content-section {
+        padding: 3rem 0;
+    }
+
+    .accordion-button {
+        padding: 1.5rem 1.75rem !important;
+    }
+}
+
+/* Medium Devices (Tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .faq-header {
+        padding: 4.5rem 0;
+    }
+
+    .faq-header h1 {
+        font-size: 3rem;
+    }
+
+    .faq-content-section {
+        padding: 4rem 0;
+    }
+
+    .faq-controls {
+        padding: 2.5rem;
+    }
+
+    .accordion-button {
+        padding: 1.75rem 2.25rem !important;
+        font-size: 1.1rem !important;
+    }
+
+    .accordion-body {
+        padding: 0 2.25rem 2rem 2.25rem !important;
+    }
+}
+
+/* Large Devices (Desktops, 992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .faq-header {
+        padding: 5.5rem 0;
+    }
+}
+
+/* Mobile Responsive (Legacy - 768px and below) */
+@media (max-width: 768px) {
+    .faq-content-section {
+        padding: 3rem 0;
+    }
+
+    .faq-controls {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .accordion-button {
+        padding: 1.5rem 1.5rem !important;
+        font-size: 1rem !important;
+    }
+
+    .accordion-button:hover {
+        padding-left: 2rem !important;
+    }
+
+    .accordion-body {
+        padding: 0 1.5rem 1.5rem 1.5rem !important;
+        font-size: 0.95rem !important;
+        line-height: 1.8 !important;
+    }
+
+    #faqSearch,
+    #categoryFilter {
+        padding: 0.875rem 1.25rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    .faq-cta {
+        padding: 2rem 1.5rem;
+        margin-top: 3rem;
+    }
+
+    .faq-cta h4 {
+        font-size: 1.5rem;
+    }
+
+    .faq-cta p {
+        font-size: 1rem;
+    }
+}
+
+/* Scroll Fade In */
+.scroll-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* FAQ Search - Hidden Items */
+.faq-item.hidden {
+    display: none !important;
+}

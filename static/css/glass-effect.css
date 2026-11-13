@@ -1,0 +1,258 @@
+/* ============================================
+   GLASSMORPHISM EFFECTS - Cards, Buttons, Forms
+   ============================================ */
+
+/* Glass Cards */
+.card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .card {
+    background: rgba(28, 28, 30, 0.9);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Card Text Colors - Dark Mode Fix */
+[data-theme="dark"] .card .card-title,
+[data-theme="dark"] .card h5,
+[data-theme="dark"] .card h4,
+[data-theme="dark"] .card h3 {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .card .card-text,
+[data-theme="dark"] .card p,
+[data-theme="dark"] .card span {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="dark"] .card .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-theme="dark"] .card-body {
+    color: var(--text-primary) !important;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Buttons - Gradient Style */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.875rem 1.75rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)) !important;
+    color: white !important;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: rgba(107, 114, 128, 0.8) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(75, 85, 99, 0.95) !important;
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-color: transparent;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 0.5px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.875rem 1.25rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.15);
+    outline: none;
+    color: var(--text-primary);
+}
+
+/* Dark Mode Form Controls - Clear Visibility */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: rgba(44, 44, 46, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus,
+[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+    background-color: rgba(58, 58, 60, 0.95) !important;
+    border-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.3) !important;
+}
+
+/* Dark Mode Form Placeholder */
+[data-theme="dark"] .form-control::placeholder,
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: rgba(255, 255, 255, 0.55) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.55) !important;
+    opacity: 1 !important;
+}
+
+/* Dark Mode Dropdown Arrow for Select */
+[data-theme="dark"] .form-select,
+[data-theme="dark"] select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 1.25rem center !important;
+    background-size: 16px 12px !important;
+}
+
+/* Dark Mode Select Options */
+[data-theme="dark"] select option,
+[data-theme="dark"] .form-select option {
+    background-color: #1c1c1e !important;
+    color: #ffffff !important;
+}
+
+/* Dark Mode Form Labels */
+[data-theme="dark"] .form-label,
+[data-theme="dark"] label,
+[data-theme="dark"] .form-check-label {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .form-text {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Dark Mode Checkboxes & Radios */
+[data-theme="dark"] .form-check-input {
+    background-color: rgba(44, 44, 46, 0.85);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/* Navbar */
+.navbar {
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 0.5px solid var(--border-color);
+    box-shadow: var(--shadow);
+    z-index: 1030 !important;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.navbar .container {
+    overflow: visible;
+    max-width: 100%;
+    width: 100%;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+}
+
+.navbar-nav {
+    flex-wrap: nowrap;
+    overflow: visible;
+}
+
+.navbar-collapse {
+    overflow: visible !important;
+}
+
+.nav-item:last-child .btn {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 0.625rem 1.25rem;
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom-color: var(--border-color);
+}
+
+/* Footer */
+footer {
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    background: rgba(255, 255, 255, 0.8);
+    border-top: 0.5px solid var(--border-color);
+}
+
+[data-theme="dark"] footer {
+    background: rgba(0, 0, 0, 0.8);
+}
+

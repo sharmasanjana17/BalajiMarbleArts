@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}FAQs - {{ business_name }} | Common Questions{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/faq.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="faq-header py-5">
+    <div class="faq-header-pattern"></div>
+    <div class="container position-relative">
+        <h1 class="text-center mb-4 fade-in">Frequently Asked Questions</h1>
+        <p class="text-center lead fade-in" style="animation-delay: 0.2s;">Find answers to common questions about marble installation</p>
+    </div>
+</section>
+
+<section class="faq-content-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <!-- Search and Filter Controls -->
+                <div class="faq-controls scroll-fade-in">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <div class="position-relative">
+                                <i class="bi bi-search position-absolute faq-search-icon" style="left: 1.25rem; top: 50%; transform: translateY(-50%); z-index: 2;"></i>
+                                <input type="text" class="form-control" id="faqSearch" placeholder="Search FAQs...">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" id="categoryFilter">
+                                <option value="all">All Categories</option>
+                                {% for cat in categories %}
+                                <option value="{{ cat }}" {% if current_category == cat %}selected{% endif %}>{{ cat }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Accordion -->
+                <div class="accordion scroll-fade-in" id="faqAccordion">
+                    {% for faq in faqs %}
+                    <div class="accordion-item faq-item scroll-fade-in" data-category="{{ faq.category }}" data-question="{{ faq.question|lower }}" data-answer="{{ faq.answer|lower }}" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ faq.id }}">
+                                <span>{{ faq.question }}</span>
+                            </button>
+                        </h2>
+                        <div id="faq{{ faq.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                {{ faq.answer }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if not faqs %}
+                <div class="faq-empty scroll-fade-in">
+                    <i class="bi bi-question-circle" style="font-size: 4rem; color: var(--text-secondary); margin-bottom: 1.5rem; opacity: 0.5;"></i>
+                    <p>No FAQs available yet.</p>
+                </div>
+                {% endif %}
+
+                <!-- Still have questions CTA -->
+                <div class="faq-cta scroll-fade-in">
+                    <h4><i class="bi bi-chat-dots me-2"></i>Still have questions?</h4>
+                    <p>Contact us for more information</p>
+                    <a href="{{ url_for('contact') }}" class="btn btn-primary">
+                        <i class="bi bi-envelope me-2"></i>Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/faq.js') }}"></script>
+{% endblock %}
+

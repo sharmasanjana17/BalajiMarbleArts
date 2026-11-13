@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - {{ business_name }} | Blog{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ post.title }}",
+    "description": "{{ post.excerpt or post.content[:200] if post.content else '' }}",
+    "image": "{{ url_for('static', filename='images/blog/' + (post.featured_image if post.featured_image else 'placeholder.jpg'), _external=True) }}",
+    "datePublished": "{{ post.published_date.strftime('%Y-%m-%d') if post.published_date else post.created_at.strftime('%Y-%m-%d') }}",
+    "dateModified": "{{ post.updated_at.strftime('%Y-%m-%d') if post.updated_at else post.created_at.strftime('%Y-%m-%d') }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ post.author }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "{{ business_name }}"
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<article class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('blog') }}">Blog</a></li>
+                        <li class="breadcrumb-item active">{{ post.title }}</li>
+                    </ol>
+                </nav>
+
+                <header class="mb-4">
+                    <span class="badge bg-primary mb-2">{{ post.category }}</span>
+                    <h1 class="mb-3">{{ post.title }}</h1>
+                    <div class="blog-meta text-muted mb-4">
+                        <span>By {{ post.author }}</span>
+                        <span class="mx-2">•</span>
+                        <span>{{ post.published_date.strftime('%B %d, %Y') if post.published_date else '' }}</span>
+                    </div>
+                    {% if post.featured_image %}
+                        {% set blog_images = [] %}
+                        {% if post.images and post.images.strip() %}
+                            {% set blog_images = parse_json(post.images) if post.images else [] %}
+                        {% endif %}
+                        {% if blog_images|length > 1 %}
+                        <div class="blog-detail-carousel mb-4">
+                            <div id="blogCarousel{{ post.id }}" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+                                <div class="carousel-inner rounded">
+                                    {% for image in blog_images %}
+                                        {% if image.strip() %}
+                                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                            <img src="{{ url_for('static', filename='images/blog/' + image.strip()) }}" 
+                                                 class="d-block w-100" 
+                                                 alt="{{ post.title }}"
+                                                 style="height: 500px; object-fit: cover;"
+                                                 onerror="this.src='{{ url_for('static', filename='images/blog/placeholder.jpg') }}'; this.onerror=null;">
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% if blog_images|length > 1 %}
+                                <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel{{ post.id }}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#blogCarousel{{ post.id }}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                                <div class="carousel-indicators">
+                                    {% for image in blog_images %}
+                                        {% if image.strip() %}
+                                        <button type="button" data-bs-target="#blogCarousel{{ post.id }}" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %} aria-label="Slide {{ loop.index }}"></button>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/blog/' + post.featured_image) }}" 
+                             class="img-fluid rounded mb-4" 
+                             alt="{{ post.title }}"
+                             onerror="this.src='{{ url_for('static', filename='images/blog/placeholder.jpg') }}'; this.onerror=null;">
+                        {% endif %}
+                    {% endif %}
+                </header>
+
+                <div class="blog-content">
+                    {{ post.content|safe }}
+                </div>
+
+                {% if post.tags %}
+                <div class="blog-tags mt-4">
+                    <strong>Tags:</strong>
+                    {% for tag in post.tags.split(',') %}
+                    <span class="badge bg-secondary me-1">{{ tag.strip() }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Social Share Buttons -->
+                <div class="social-share-buttons mt-4 mb-4">
+                    <span class="me-2"><strong>Share:</strong></span>
+                    <button class="btn btn-sm btn-outline-primary share-btn" data-platform="whatsapp" title="Share on WhatsApp">
+                        <i class="bi bi-whatsapp"></i> WhatsApp
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary share-btn" data-platform="facebook" title="Share on Facebook">
+                        <i class="bi bi-facebook"></i> Facebook
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary share-btn" data-platform="twitter" title="Share on Twitter">
+                        <i class="bi bi-twitter"></i> Twitter
+                    </button>
+                    <button class="btn btn-sm btn-outline-success copy-url-btn" title="Copy URL">
+                        <i class="bi bi-link-45deg"></i> Copy URL
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Posts -->
+        {% if related_posts %}
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <h3 class="mb-4">Related Posts</h3>
+                <div class="row g-4">
+                    {% for related in related_posts %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            {% if related.featured_image %}
+                            <img src="{{ url_for('static', filename='images/blog/' + related.featured_image) }}" 
+                                 class="card-img-top" 
+                                 alt="{{ related.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ related.title }}</h5>
+                                <a href="{{ url_for('blog_post', post_id=related.id) }}" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/blog.js') }}"></script>
+{% endblock %}
+

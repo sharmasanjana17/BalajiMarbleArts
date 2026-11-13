@@ -1,0 +1,10 @@
+Flask
+Flask-SQLAlchemy
+Flask-Mail
+Flask-SocketIO
+python-socketio
+simple-websocket
+Werkzeug
+Pillow
+gunicorn
+eventlet

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Material - Admin{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="admin-content-full">
+        <div class="admin-header">
+            <h1><i class="bi bi-gem me-2"></i>Edit Material</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+        
+        <div class="admin-form-card">
+            <form method="POST" action="{{ url_for('admin_edit_material', id=material.id) }}" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Material Name *</label>
+                    <input type="text" class="form-control" id="name" name="name" 
+                           value="{{ material.name }}" required>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <input type="text" class="form-control" id="type" name="type" 
+                               value="{{ material.type or '' }}" placeholder="e.g., Marble, Granite">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="origin" class="form-label">Origin</label>
+                        <input type="text" class="form-control" id="origin" name="origin" 
+                               value="{{ material.origin or '' }}" placeholder="e.g., India, Italy">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="material_file" class="form-label fw-bold">Upload New Photo From Computer / Phone</label>
+                    <input type="file" class="form-control" id="material_file" name="material_file" accept="image/*">
+                    <small class="text-muted d-block mt-1">Select an image file (JPG, PNG, WEBP) to update this marble's photo.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="images" class="form-label">Or Image Filename</label>
+                    <input type="text" class="form-control" id="images" name="images" 
+                           value="{{ material.images or '' }}" 
+                           placeholder="e.g., marble-statuario.jpg">
+                    {% if material_images and material_images|length > 0 %}
+                    <div class="mt-2 d-flex gap-2 align-items-center" id="current-material-preview">
+                        {% for img in material_images %}
+                        <div class="border rounded p-2 bg-light text-center" style="max-width: 150px;">
+                            <img src="{{ url_for('static', filename='images/materials/types/' + img.strip()) }}" 
+                                 alt="Current Image" 
+                                 style="height: 90px; width: 130px; object-fit: cover; border-radius: 4px;"
+                                 onerror="this.src='{{ url_for('static', filename='images/placeholder1.jpg') }}';">
+                            <div class="small text-muted text-truncate mt-1">{{ img }}</div>
+                            <button type="button" class="btn btn-sm btn-outline-danger w-100 mt-2" 
+                                    onclick="document.getElementById('images').value=''; document.getElementById('current-material-preview').style.opacity='0.3';">
+                                <i class="bi bi-trash me-1"></i>Remove
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3">{{ material.description or '' }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="characteristics" class="form-label">Characteristics</label>
+                    <textarea class="form-control" id="characteristics" name="characteristics" rows="3" 
+                              placeholder="Comma separated characteristics">{{ material.characteristics or '' }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="finishes" class="form-label">Finishes</label>
+                    <textarea class="form-control" id="finishes" name="finishes" rows="2" 
+                              placeholder="Comma separated finishes">{{ material.finishes or '' }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="best_use_cases" class="form-label">Best Use Cases</label>
+                    <textarea class="form-control" id="best_use_cases" name="best_use_cases" rows="2" 
+                              placeholder="Comma separated use cases">{{ material.best_use_cases or '' }}</textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="durability" class="form-label">Durability</label>
+                        <input type="text" class="form-control" id="durability" name="durability" 
+                               value="{{ material.durability or '' }}" placeholder="e.g., High, Medium">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="price_range" class="form-label">Price Range</label>
+                        <input type="text" class="form-control" id="price_range" name="price_range" 
+                               value="{{ material.price_range or '' }}" placeholder="e.g., ₹500-1000/sqft">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="maintenance" class="form-label">Maintenance</label>
+                    <textarea class="form-control" id="maintenance" name="maintenance" rows="3">{{ material.maintenance or '' }}</textarea>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>Update Material
+                    </button>
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

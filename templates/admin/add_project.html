@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Project - Admin{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="admin-content-full">
+        <div class="admin-header">
+            <h1><i class="bi bi-images me-2"></i>Add New Project</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+        
+        <div class="admin-form-card">
+            <form method="POST" action="{{ url_for('admin_add_project') }}" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title *</label>
+                    <input type="text" class="form-control" id="title" name="title" required placeholder="Project Title">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="short_description" class="form-label">Short Description</label>
+                    <textarea class="form-control" id="short_description" name="short_description" rows="2" placeholder="Brief summary of the project"></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" placeholder="Full project details"></textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="category" name="category" placeholder="e.g., Residential, Flooring">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" placeholder="e.g., Bengaluru, Karnataka">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="client_type" class="form-label">Client Type</label>
+                        <select class="form-select" id="client_type" name="client_type">
+                            <option value="">Select</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="completed" selected>Completed</option>
+                            <option value="ongoing">Ongoing</option>
+                            <option value="upcoming">Upcoming</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="architect_name" class="form-label">Architect Name</label>
+                    <input type="text" class="form-control" id="architect_name" name="architect_name" placeholder="Optional architect or interior designer">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="completion_date" class="form-label">Completion Date</label>
+                    <input type="date" class="form-control" id="completion_date" name="completion_date">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="materials" class="form-label">Materials</label>
+                    <textarea class="form-control" id="materials" name="materials" rows="2" placeholder="Comma separated materials (e.g. Italian Carrara Marble, Kota Stone)"></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="project_images" class="form-label">Upload Images</label>
+                    <input type="file" class="form-control" id="project_images" name="project_images" accept="image/*" multiple>
+                    <small class="form-text text-muted">Select multiple images to upload (PNG, JPG, JPEG, GIF, WEBP)</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="project_videos" class="form-label">Upload Videos</label>
+                    <input type="file" class="form-control" id="project_videos" name="project_videos" accept="video/*" multiple>
+                    <small class="form-text text-muted">Select videos to upload (MP4, WEBM, OGG, MOV)</small>
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="featured" name="featured">
+                    <label class="form-check-label" for="featured">Featured Project (Show on Homepage)</label>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-2"></i>Save Project
+                    </button>
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

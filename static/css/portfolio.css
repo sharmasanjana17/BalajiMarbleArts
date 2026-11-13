@@ -1,0 +1,437 @@
+/* ============================================
+   PORTFOLIO PAGE - Portfolio Styles
+   ============================================ */
+
+.portfolio-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio-header-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+    background-size: 100% 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.portfolio-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    text-shadow: 0 3px 25px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.portfolio-header p {
+    font-size: 1.25rem;
+    color: #ffffff !important;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 2;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .portfolio-header h1 {
+        font-size: 2.5rem;
+    }
+    .portfolio-header {
+        padding: 3rem 0;
+    }
+}
+
+/* Portfolio Filters */
+.portfolio-filters {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 20px;
+    border: 0.5px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+[data-theme="dark"] .portfolio-filters {
+    background: rgba(28, 28, 30, 0.7);
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.filter-btn {
+    border-radius: 50px;
+    padding: 0.625rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(var(--primary-color-rgb), 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    transition: left 0.3s ease;
+    z-index: 0;
+}
+
+.filter-btn span,
+.filter-btn i {
+    position: relative;
+    z-index: 1;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.filter-btn.active::before {
+    left: 0;
+}
+
+/* Search Wrapper */
+.search-wrapper {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    z-index: 2;
+}
+
+.search-input {
+    padding-left: 45px;
+    border-radius: 50px;
+    border: 2px solid rgba(var(--primary-color-rgb), 0.2);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.1);
+}
+
+/* Portfolio Grid */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.portfolio-item {
+    transition: all 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Project Card Images */
+.project-card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.project-card:hover {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+}
+
+.project-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+    background: var(--bg-secondary);
+}
+
+/* Project Image Carousel */
+.project-image-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.carousel-image-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transform: scale(1.05);
+}
+
+.carousel-image-item.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 1;
+}
+
+.carousel-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.project-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-secondary);
+}
+
+.project-image-wrapper img,
+.project-image-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-secondary);
+}
+
+.project-image-wrapper .card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-image-wrapper:hover .project-media,
+.project-image-wrapper:hover img,
+.project-image-wrapper:hover video {
+    transform: scale(1.1);
+}
+
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(2px);
+}
+
+.project-image-wrapper:hover .project-overlay {
+    opacity: 1;
+}
+
+.project-overlay .btn {
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.project-image-wrapper:hover .project-overlay .btn {
+    transform: translateY(0);
+}
+
+.project-category-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Scroll Fade In */
+.scroll-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .project-card {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .portfolio-filters {
+    background: rgba(28, 28, 30, 0.7);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .filter-btn {
+    background: rgba(44, 44, 46, 0.9);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .search-input {
+    background: rgba(44, 44, 46, 0.9) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="dark"] .search-input:focus {
+    background: rgba(58, 58, 60, 0.95) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25) !important;
+}
+
+[data-theme="dark"] .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.55) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+[data-theme="dark"] .project-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}
+
+/* Card Text Visibility - Dark Mode */
+[data-theme="dark"] .project-card .card-title,
+[data-theme="dark"] .project-card .card-text,
+[data-theme="dark"] .project-card p,
+[data-theme="dark"] .project-card h5 {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .project-card .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - Portfolio Page
+   ============================================ */
+
+/* Extra Small Devices (Phones, 0px to 575px) */
+@media (max-width: 575px) {
+    .portfolio-header h1 {
+        font-size: 2rem;
+    }
+    .portfolio-header {
+        padding: 2.5rem 0;
+    }
+    .filter-btn {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.8rem;
+    }
+    .project-card {
+        margin-bottom: 1.25rem;
+    }
+    .portfolio-filters {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .search-wrapper {
+        width: 100%;
+    }
+}
+
+/* Small Devices (Landscape Phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .portfolio-header h1 {
+        font-size: 2.25rem;
+    }
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Medium Devices (Tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .portfolio-header {
+        padding: 4.5rem 0;
+    }
+    .portfolio-header h1 {
+        font-size: 3rem;
+    }
+    .filter-btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Mobile Responsive (Legacy - 768px and below) */
+@media (max-width: 768px) {
+    .portfolio-header h1 {
+        font-size: 2.5rem;
+    }
+    .portfolio-header {
+        padding: 3rem 0;
+    }
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    .project-card {
+        margin-bottom: 1.5rem;
+    }
+    .portfolio-filters {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .search-wrapper {
+        width: 100%;
+    }
+}
+

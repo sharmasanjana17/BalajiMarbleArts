@@ -1,0 +1,392 @@
+/* ============================================
+   THEME SYSTEM - Light/Dark Mode + 4 Color Themes
+   ============================================ */
+
+:root {
+    /* Default: Light Mode + Neon Theme (Blue/Cyan) */
+    --primary-color: #00d9ff;
+    --primary-dark: #00b8d4;
+    --primary-light: #33e0ff;
+    --secondary-color: #ff00ff;
+    --accent-color: #ff33ff;
+
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-light: #ffffff;
+
+    --border-color: #d2d2d7;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 5px 20px rgba(0, 0, 0, 0.12);
+
+    --primary-color-rgb: 0, 217, 255;
+    --bg-primary-rgb: 255, 255, 255;
+}
+
+/* ========== DARK MODE ========== */
+[data-theme="dark"] {
+    color-scheme: dark;
+    --bg-primary: #000000;
+    --bg-secondary: #1c1c1e;
+    --bg-tertiary: #2c2c2e;
+
+    --text-primary: #ffffff;
+    --text-secondary: #98989d;
+
+    --border-color: #38383a;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 5px 20px rgba(0, 0, 0, 0.6);
+
+    --bg-primary-rgb: 0, 0, 0;
+}
+
+/* ========== COLOR THEME: PURPLE ========== */
+[data-color-theme="purple"] {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #818cf8;
+    --secondary-color: #ec4899;
+    --accent-color: #f472b6;
+    --primary-color-rgb: 99, 102, 241;
+}
+
+[data-theme="dark"][data-color-theme="purple"] {
+    --primary-color: #818cf8;
+    --primary-dark: #6366f1;
+    --primary-light: #a5b4fc;
+    --secondary-color: #f472b6;
+    --accent-color: #fb7185;
+}
+
+/* ========== COLOR THEME: BLACK & WHITE ========== */
+[data-color-theme="black-white"] {
+    --primary-color: #000000;
+    --primary-dark: #000000;
+    --primary-light: #333333;
+    --secondary-color: #ffffff;
+    --accent-color: #e5e5e5;
+    --primary-color-rgb: 0, 0, 0;
+}
+
+[data-theme="dark"][data-color-theme="black-white"] {
+    --primary-color: #ffffff;
+    --primary-dark: #e5e5e5;
+    --primary-light: #ffffff;
+    --secondary-color: #000000;
+    --accent-color: #333333;
+}
+
+/* ========== COLOR THEME: NEON MAGENTA & CYAN ========== */
+[data-color-theme="neon-magenta-cyan"] {
+    --primary-color: #ff00ff;
+    --primary-dark: #cc00cc;
+    --primary-light: #ff33ff;
+    --secondary-color: #00ffff;
+    --accent-color: #33ffff;
+    --primary-color-rgb: 255, 0, 255;
+}
+
+[data-theme="dark"][data-color-theme="neon-magenta-cyan"] {
+    --primary-color: #ff33ff;
+    --primary-dark: #ff00ff;
+    --primary-light: #ff66ff;
+    --secondary-color: #33ffff;
+    --accent-color: #66ffff;
+}
+
+/* ========== COLOR THEME: ORANGE & TEAL ========== */
+[data-color-theme="orange-teal"] {
+    --primary-color: #ff6b35;
+    --primary-dark: #e55a2b;
+    --primary-light: #ff8c5a;
+    --secondary-color: #00d4aa;
+    --accent-color: #33e0c0;
+    --primary-color-rgb: 255, 107, 53;
+}
+
+[data-theme="dark"][data-color-theme="orange-teal"] {
+    --primary-color: #ff8c5a;
+    --primary-dark: #ff6b35;
+    --primary-light: #ffad7d;
+    --secondary-color: #33e0c0;
+    --accent-color: #66e8d4;
+}
+
+/* ========== NEON COLOR THEMES ========== */
+/* Add your new neon color themes here */
+
+/* ========== THEME AWARE COMPONENTS ========== */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    color: white !important;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-light {
+    background-color: var(--bg-secondary) !important;
+}
+
+.bg-dark {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* ========== APPEARANCE SETTINGS MODAL ========== */
+.theme-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-modal.active {
+    display: flex;
+}
+
+.theme-modal-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    animation: slideIn 0.3s ease;
+    color: var(--text-primary);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.theme-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.theme-modal-header h3 {
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.theme-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.theme-close-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.theme-section {
+    margin-bottom: 2rem;
+}
+
+.theme-section-title {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.theme-mode-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.theme-mode-btn {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.theme-mode-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow);
+    transform: scale(1.02);
+}
+
+.theme-mode-btn:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.theme-color-swatches {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.theme-color-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-color-item:hover {
+    transform: translateY(-2px);
+}
+
+.theme-color-swatch {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.theme-color-item.active .theme-color-swatch {
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.theme-color-name {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    min-width: 70px;
+    display: none;
+    /* Hidden but not removed */
+}
+
+.theme-color-item:hover .theme-color-name {
+    color: var(--primary-color);
+}
+
+.theme-color-item.active .theme-color-name {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.theme-color-swatch.purple {
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+}
+
+.theme-color-swatch.black-white {
+    background: linear-gradient(135deg, #000000, #ffffff);
+}
+
+.theme-color-swatch.neon-magenta-cyan {
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+}
+
+.theme-color-swatch.orange-teal {
+    background: linear-gradient(135deg, #ff6b35, #00d4aa);
+}
+
+/* Neon Color Swatches */
+/* Add your new neon color swatch styles here */
+
+.theme-done-btn {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.theme-done-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.theme-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}

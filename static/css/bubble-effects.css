@@ -1,0 +1,55 @@
+/* ============================================
+   BUBBLE EFFECTS - Background Animations
+   ============================================ */
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    max-width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(var(--primary-color-rgb), 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(var(--primary-color-rgb), 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(var(--primary-color-rgb), 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: bubbleFloat 20s ease-in-out infinite;
+    overflow: hidden;
+}
+
+[data-theme="dark"] body::before {
+    opacity: 0.6;
+}
+
+@keyframes bubbleFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(20px, -20px) scale(1.1);
+    }
+}
+
+/* Project Image Bubble Shapes - Only for gallery thumbnails, not portfolio cards */
+.gallery-thumbnail {
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    clip-path: ellipse(90% 85% at 50% 50%);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.gallery-thumbnail:hover {
+    transform: scale(1.05);
+    border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+    clip-path: ellipse(95% 90% at 50% 50%);
+}
+
+/* Portfolio page project-image-wrapper should not have bubble effect */
+.portfolio-item .project-image-wrapper {
+    border-radius: 16px 16px 0 0;
+    clip-path: none;
+}
+

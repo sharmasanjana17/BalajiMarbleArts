@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Testimonials - {{ business_name }} | Client Reviews{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/testimonials.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="testimonials-header py-5">
+    <div class="testimonials-header-pattern"></div>
+    <div class="container position-relative">
+        <h1 class="text-center mb-4 fade-in">Client Testimonials</h1>
+        <p class="text-center lead fade-in" style="animation-delay: 0.2s;">What our clients say about our work</p>
+    </div>
+</section>
+
+<section class="py-5 scroll-fade-in">
+    <div class="container">
+        <div class="row g-4">
+            {% for testimonial in testimonials %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 testimonial-card">
+                    {% if testimonial.photo %}
+                    <div class="testimonial-photo-wrapper">
+                        {% set testimonial_images = [] %}
+                        {% if testimonial.images and testimonial.images.strip() %}
+                            {% set testimonial_images = parse_json(testimonial.images) if testimonial.images else [] %}
+                        {% endif %}
+                        {% if testimonial_images|length > 1 %}
+                        <div class="project-image-carousel" data-carousel-id="testimonial-{{ testimonial.id }}">
+                            {% for image in testimonial_images %}
+                                {% if image.strip() %}
+                                <div class="carousel-image-item {% if loop.first %}active{% endif %}">
+                                    <img src="{{ url_for('static', filename='images/testimonials/' + image.strip()) }}" 
+                                         class="testimonial-photo" 
+                                         alt="{{ testimonial.client_name }}"
+                                         loading="lazy"
+                                         onerror="this.src='{{ url_for('static', filename='images/testimonials/placeholder.jpg') }}'; this.onerror=null;">
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/testimonials/' + testimonial.photo) }}" 
+                             class="testimonial-photo" 
+                             alt="{{ testimonial.client_name }}"
+                             loading="lazy"
+                             onerror="this.src='{{ url_for('static', filename='images/testimonials/placeholder.jpg') }}'; this.onerror=null;">
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="card-body p-4">
+                        <div class="testimonial-quote-icon mb-3">
+                            <i class="bi bi-quote"></i>
+                        </div>
+                        <div class="stars mb-3">
+                            {% for i in range(testimonial.rating) %}
+                            <i class="bi bi-star-fill text-warning"></i>
+                            {% endfor %}
+                        </div>
+                        <p class="card-text testimonial-text">"{{ testimonial.text }}"</p>
+                        <div class="testimonial-author mt-4">
+                            <h6 class="mb-1 fw-bold">{{ testimonial.client_name }}</h6>
+                            <p class="text-muted small mb-2">
+                                <i class="bi bi-geo-alt me-1"></i>{{ testimonial.location }}
+                            </p>
+                            {% if testimonial.project %}
+                            <a href="{{ url_for('project_detail', project_id=testimonial.project_id) }}" class="text-primary small">
+                                <i class="bi bi-arrow-right me-1"></i>View Project
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if not testimonials %}
+        <div class="testimonials-empty scroll-fade-in">
+            <div class="empty-state-card">
+                <i class="bi bi-chat-quote empty-state-icon"></i>
+                <h3 class="empty-state-title">No Testimonials Yet</h3>
+                <p class="empty-state-text">We're waiting for our first client testimonial. Be the first to share your experience!</p>
+                <a href="{{ url_for('contact') }}" class="btn btn-primary mt-3">
+                    <i class="bi bi-envelope me-2"></i>Share Your Experience
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/testimonials.js') }}"></script>
+{% endblock %}
+

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}About - {{ business_name }} | {{ owner_name }}{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="about-header py-5">
+    <div class="about-header-pattern"></div>
+    <div class="container position-relative">
+        <h1 class="text-center mb-4 fade-in">About</h1>
+        <p class="text-center lead fade-in" style="animation-delay: 0.2s;">Excellence in Marble Installation Since 2004</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <!-- About Contractor -->
+        <div class="row mb-5 align-items-center about-contractor-section scroll-fade-in">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <div class="about-image-wrapper position-relative">
+                    <div class="about-image">
+                        <img src="{{ url_for('static', filename='images/about/ashok-sharma.jpg', v='20261113_1') }}" 
+                             alt="{{ owner_name }}" 
+                             class="img-fluid"
+                             onerror="this.src='{{ url_for('static', filename='images/about/ashok-sharma.jpeg', v='20261113_1') }}';">
+                    </div>
+                    <div class="experience-badge">
+                        <i class="bi bi-award-fill"></i>
+                        <span>{{ years_experience or '20+' }} Years</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="about-content-card">
+                    <h2 class="mb-4 section-title">About the Contractor</h2>
+                    <p class="lead mb-3"><strong>{{ owner_name }}</strong> - Owner of {{ business_name }}</p>
+                    <p class="mb-3">{{ about_description if about_description else 'With over 20+ years of experience in marble installation, ' ~ owner_name ~ ' brings unmatched expertise, quality, and dedication to every project. Our passion for marble work started with a commitment to transform spaces with premium materials and exceptional craftsmanship.' }}</p>
+                    <p class="mb-0">{{ about_specialization if about_specialization else business_name ~ ' specializes in residential and commercial marble installations across ' ~ business_location ~ '. Under the leadership of ' ~ owner_name ~ ', we have built a reputation for quality workmanship, timely delivery, and customer satisfaction.' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Work & Clients -->
+        <div class="row mb-5">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="mb-4 text-center">Our Work & Clients</h2>
+                <div class="row g-4 text-center mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card p-4 bg-light rounded h-100">
+                            <h3 class="text-primary">{{ projects_completed or (total_projects ~ '+') }}</h3>
+                            <p class="mb-0">Projects Completed</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card p-4 bg-light rounded h-100">
+                            <h3 class="text-primary">{{ residential_projects or residential_count }}</h3>
+                            <p class="mb-0">Residential Projects</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card p-4 bg-light rounded h-100">
+                            <h3 class="text-primary">{{ commercial_projects or commercial_count }}</h3>
+                            <p class="mb-0">Commercial Projects</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card p-4 bg-light rounded h-100">
+                            <h3 class="text-primary">{{ years_experience or '20+' }}</h3>
+                            <p class="mb-0">Years of Experience</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center mt-4">{{ serving_text if serving_text else ('Serving homeowners, architects, and builders across ' ~ business_location) }}</p>
+            </div>
+        </div>
+
+        <!-- Material Sourcing Process -->
+        <div class="row mb-5 scroll-fade-in">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="mb-5 text-center section-title">Material Sourcing Process</h2>
+                <div class="process-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h5><i class="bi bi-check-circle-fill text-primary me-2"></i>Quality Selection</h5>
+                            <p>We source premium marble from trusted suppliers, ensuring quality and authenticity.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="bi bi-clipboard-check"></i>
+                        </div>
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h5><i class="bi bi-check-circle-fill text-primary me-2"></i>Quality Checks</h5>
+                            <p>Every material undergoes thorough inspection before installation.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h5><i class="bi bi-check-circle-fill text-primary me-2"></i>Supplier Relationships</h5>
+                            <p>Long-term partnerships with reliable suppliers ensure consistent quality.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Installation Process -->
+        <div class="row mb-5 scroll-fade-in">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="mb-5 text-center section-title">Installation Process</h2>
+                <div class="process-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="bi bi-rulers"></i>
+                        </div>
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h5><i class="bi bi-check-circle-fill text-primary me-2"></i>Site Preparation</h5>
+                            <p>Thorough site measurement and preparation for optimal installation.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="bi bi-tools"></i>
+                        </div>
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h5><i class="bi bi-check-circle-fill text-primary me-2"></i>Precision Installation</h5>
+                            <p>Expert installation techniques ensuring perfect fit and finish.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h5><i class="bi bi-check-circle-fill text-primary me-2"></i>Quality Control</h5>
+                            <p>Multiple quality checks at each stage of installation.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="bi bi-clipboard-check"></i>
+                        </div>
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <h5><i class="bi bi-check-circle-fill text-primary me-2"></i>Final Inspection</h5>
+                            <p>Comprehensive final inspection before handover to client.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Site Visit Section -->
+        <div class="row scroll-fade-in">
+            <div class="col-lg-10 mx-auto text-center">
+                <div class="site-visit-card">
+                    <div class="site-visit-icon mb-4">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <h3 class="mb-3">Schedule a Site Visit</h3>
+                    <p class="mb-4 lead">View our work in person and get expert consultation</p>
+                    <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-5">
+                        <i class="bi bi-telephone me-2"></i>Book Consultation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+{% endblock %}
+

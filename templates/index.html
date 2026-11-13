@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ business_name }} | Professional Marble Contractor in {{ business_location }}{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-pattern"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold text-white mb-4 hero-title fade-in">Professional Marble Installation Services</h1>
+                <p class="lead text-white mb-4 hero-subtitle fade-in" style="animation-delay: 0.2s;">Transform your space with premium marble work. Serving {{ business_location }} with quality craftsmanship.</p>
+                <div class="d-flex flex-wrap gap-3 mb-5 justify-content-center hero-cta fade-in" style="animation-delay: 0.4s;">
+                    <a href="{{ url_for('contact') }}" class="btn btn-hero-primary btn-lg">
+                        <i class="bi bi-chat-dots me-2"></i>Get Free Quote
+                    </a>
+                    <a href="{{ url_for('portfolio') }}" class="btn btn-hero-secondary btn-lg">
+                        <i class="bi bi-images me-2"></i>View Our Work
+                    </a>
+                </div>
+                <!-- Trust Badges in Hero -->
+                <div class="hero-trust-badges fade-in" style="animation-delay: 0.6s;">
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-auto">
+                            <div class="hero-badge-item">
+                                <i class="bi bi-award-fill"></i>
+                                <span>20+ Years</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="hero-badge-item">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>60+ Projects</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="hero-badge-item">
+                                <i class="bi bi-telephone-fill"></i>
+                                <a href="tel:{{ business_phone }}" class="text-white text-decoration-none">{{ business_phone }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll-indicator">
+        <i class="bi bi-chevron-down"></i>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+<section class="py-5 scroll-fade-in">
+    <div class="container">
+        <h2 class="text-center mb-5 section-title">Featured Projects</h2>
+        <div class="row g-4">
+            {% for project in featured_projects %}
+            {% set project_images = parse_json(project.images) %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 project-card" onclick="window.location.href='{{ url_for('project_detail', project_id=project.id) }}'" style="cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                    <div class="project-image-wrapper position-relative">
+                        <!-- Photo Count Badge -->
+                        <span class="badge bg-dark bg-opacity-75 position-absolute top-0 start-0 m-3 text-white shadow-sm" style="z-index: 2; font-size: 0.8rem; border-radius: 20px; padding: 6px 12px; backdrop-filter: blur(4px);">
+                            <i class="bi bi-images me-1"></i>{{ project_images|length }} Photos
+                        </span>
+
+                        {% if project_images and project_images|length > 1 %}
+                            <div class="project-image-carousel" data-carousel-id="project-{{ project.id }}">
+                                {% for image in project_images[:5] %}
+                                    <div class="carousel-image-item {% if loop.first %}active{% endif %}">
+                                        <img src="{{ url_for('static', filename='images/projects/' + image) }}" 
+                                              class="card-img-top project-media" 
+                                              alt="{{ project.title }}"
+                                              loading="lazy"
+                                              onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% elif project_images and project_images|length == 1 %}
+                            <img src="{{ url_for('static', filename='images/projects/' + project_images[0]) }}" 
+                                 class="card-img-top project-media" 
+                                 alt="{{ project.title }}"
+                                 loading="lazy"
+                                 onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/projects/placeholder.jpg') }}" 
+                                 class="card-img-top project-media" 
+                                 alt="{{ project.title }}"
+                                 loading="lazy">
+                        {% endif %}
+                        <div class="project-overlay">
+                            <span class="btn btn-light shadow-sm">
+                                <i class="bi bi-images me-2"></i>View All {{ project_images|length }} Photos
+                            </span>
+                        </div>
+                        {% if project.category %}
+                        <div class="project-category-badge">{{ project.category }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title fw-bold text-dark">{{ project.title }}</h5>
+                            <p class="card-text text-muted small mb-2">
+                                <i class="bi bi-geo-alt me-1 text-primary"></i>{{ project.location }}
+                            </p>
+                        </div>
+                        <div class="pt-2 border-top d-flex justify-content-between align-items-center text-primary small fw-semibold">
+                            <span><i class="bi bi-eye me-1"></i>Open Full Gallery</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section class="py-5 bg-light scroll-fade-in">
+    <div class="container">
+        <h2 class="text-center mb-5 section-title">Our Services</h2>
+        <div class="row g-4">
+            {% for service in services[:8] %}
+            <div class="col-md-6 col-lg-3">
+                <div class="service-card text-center p-4 h-100">
+                    <div class="service-icon mb-3">
+                        {% if 'flooring' in service.name|lower %}
+                            <i class="bi bi-grid-3x3-gap service-icon-inner"></i>
+                        {% elif 'wall' in service.name|lower and 'cladding' in service.name|lower %}
+                            <i class="bi bi-square service-icon-inner"></i>
+                        {% elif 'feature' in service.name|lower %}
+                            <i class="bi bi-stars service-icon-inner"></i>
+                        {% elif 'staircase' in service.name|lower %}
+                            <i class="bi bi-ladder service-icon-inner"></i>
+                        {% elif 'countertop' in service.name|lower %}
+                            <i class="bi bi-app service-icon-inner"></i>
+                        {% elif 'exterior' in service.name|lower %}
+                            <i class="bi bi-building service-icon-inner"></i>
+                        {% elif 'bathroom' in service.name|lower %}
+                            <i class="bi bi-droplet service-icon-inner"></i>
+                        {% elif 'custom' in service.name|lower or 'design' in service.name|lower %}
+                            <i class="bi bi-palette service-icon-inner"></i>
+                        {% else %}
+                            <i class="bi bi-hammer service-icon-inner"></i>
+                        {% endif %}
+                    </div>
+                    <h5 class="mb-3">{{ service.name }}</h5>
+                    <p class="text-muted small mb-3">{{ service.description[:100] }}...</p>
+                    <a href="{{ url_for('contact') }}" class="btn btn-sm btn-outline-primary">Learn More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- How We Work / Process Section -->
+<section class="py-5 scroll-fade-in">
+    <div class="container">
+        <h2 class="text-center mb-5 section-title">How We Work</h2>
+        <div class="process-container">
+            <div class="row g-4">
+                <div class="col-md-3 text-center">
+                    <div class="process-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-number">1</div>
+                            <i class="bi bi-calendar-check step-icon"></i>
+                        </div>
+                        <h5 class="mt-3">Site Visit</h5>
+                        <p>Free consultation and site measurement</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="process-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-number">2</div>
+                            <i class="bi bi-gem step-icon"></i>
+                        </div>
+                        <h5 class="mt-3">Material Selection</h5>
+                        <p>Choose from premium marble varieties</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="process-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-number">3</div>
+                            <i class="bi bi-tools step-icon"></i>
+                        </div>
+                        <h5 class="mt-3">Installation</h5>
+                        <p>Professional installation with quality assurance</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="process-step">
+                        <div class="step-icon-wrapper">
+                            <div class="step-number">4</div>
+                            <i class="bi bi-check-circle step-icon"></i>
+                        </div>
+                        <h5 class="mt-3">Completion</h5>
+                        <p>Final inspection and handover</p>
+                    </div>
+                </div>
+            </div>
+            <div class="process-connector"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="py-5 bg-light scroll-fade-in">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="trust-badge">
+                    <div class="trust-icon mb-3">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                    <h3 class="trust-counter" data-target="20">0</h3>
+                    <p>Years Experience</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="trust-badge">
+                    <div class="trust-icon mb-3">
+                        <i class="bi bi-folder-check"></i>
+                    </div>
+                    <h3 class="trust-counter" data-target="60">0</h3>
+                    <p>Projects Completed</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="trust-badge">
+                    <div class="trust-icon mb-3">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h3 class="trust-counter" data-target="150">0</h3>
+                    <p>Satisfied Clients</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Carousel -->
+<section class="py-5 scroll-fade-in">
+    <div class="container">
+        <h2 class="text-center mb-5 section-title">What Our Clients Say</h2>
+        <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                {% for testimonial in testimonials %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <div class="testimonial-card text-center p-5">
+                        <div class="testimonial-quote-icon mb-3">
+                            <i class="bi bi-quote"></i>
+                        </div>
+                        <div class="stars mb-3">
+                            {% for i in range(testimonial.rating) %}
+                            <i class="bi bi-star-fill text-warning"></i>
+                            {% endfor %}
+                        </div>
+                        <p class="lead testimonial-text">"{{ testimonial.text }}"</p>
+                        <div class="testimonial-author mt-4">
+                            <h6 class="mb-1">{{ testimonial.client_name }}</h6>
+                            <p class="text-muted small mb-0">
+                                <i class="bi bi-geo-alt me-1"></i>{{ testimonial.location }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Site Visit CTA -->
+<section class="cta-section scroll-fade-in">
+    <div class="container text-center">
+        <div class="cta-content">
+            <i class="bi bi-calendar-check cta-icon mb-3"></i>
+            <h2 class="mb-4">Schedule a Free Site Visit</h2>
+            <p class="lead mb-4">View our work in person and get expert consultation</p>
+            <a href="{{ url_for('contact') }}" class="btn btn-cta btn-lg">
+                <i class="bi bi-telephone me-2"></i>Book Consultation
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
+
