@@ -31,17 +31,42 @@
 
 /* Navbar Brand */
 .navbar-brand {
+    display: inline-flex !important;
+    align-items: center !important;
     font-weight: 700;
     font-size: 1.25rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    max-width: none !important;
+    overflow: visible !important;
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    height: 38px;
+    width: 38px;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-right: 10px;
+    display: inline-block;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+.navbar-brand span {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
+    display: inline-block;
+}
+
+.sidebar-brand img {
+    height: 32px;
+    width: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-right: 10px;
+    display: inline-block;
 }
 
 .navbar-brand:hover {

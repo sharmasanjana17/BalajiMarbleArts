@@ -39,25 +39,35 @@ app = Flask(__name__)
 # Aggressive browser caching for static assets (CSS, JS, 455 project photos)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # 1 year
 
+import time
+
+_CACHE = {}
+
+def get_cached(key, getter, ttl=60):
+    """Simple in-memory TTL cache to eliminate repetitive SQLite queries"""
+    now = time.time()
+    if key in _CACHE:
+        val, expires = _CACHE[key]
+        if now < expires:
+            return val
+    val = getter()
+    _CACHE[key] = (val, now + ttl)
+    return val
+
+def clear_cache():
+    """Clear memory cache when admin modifies content"""
+    _CACHE.clear()
+
 @app.after_request
 def add_performance_headers(response):
-    """Add browser caching headers and GZIP compression to make page navigation ultra-fast"""
+    """Add browser caching headers for static assets and public pages"""
     if request.path.startswith('/static/'):
         response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
     elif response.content_type and 'text/html' in response.content_type:
-        response.headers['Cache-Control'] = 'no-cache, must-revalidate'
-        
-    # GZIP Compression for text responses (reduces HTML/CSS/JS payload by 75%)
-    accept_encoding = request.headers.get('Accept-Encoding', '')
-    if 'gzip' in accept_encoding.lower() and response.status_code == 200:
-        content_type = response.content_type or ''
-        if any(t in content_type for t in ['text/html', 'text/css', 'application/javascript', 'application/json']):
-            if len(response.data) > 500 and 'Content-Encoding' not in response.headers:
-                compressed_data = gzip.compress(response.data, compresslevel=6)
-                if len(compressed_data) < len(response.data):
-                    response.data = compressed_data
-                    response.headers['Content-Encoding'] = 'gzip'
-                    response.headers['Content-Length'] = len(compressed_data)
+        if not request.path.startswith('/admin'):
+            response.headers['Cache-Control'] = 'public, max-age=30'
+        else:
+            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     return response
 
 # SocketIO initialization with threading for multi-threaded gunicorn
@@ -291,9 +301,9 @@ def inject_business_info():
 
 @app.route('/')
 def index():
-    featured_projects = Project.query.filter_by(featured=True).limit(6).all()
-    testimonials = Testimonial.query.limit(4).all()
-    services = Service.query.all()
+    featured_projects = get_cached('home_featured_projects', lambda: Project.query.filter_by(featured=True).limit(6).all(), ttl=60)
+    testimonials = get_cached('home_testimonials', lambda: Testimonial.query.limit(4).all(), ttl=60)
+    services = get_cached('all_services', lambda: Service.query.all(), ttl=60)
     return render_template('index.html', 
                          featured_projects=featured_projects,
                          testimonials=testimonials,
@@ -304,25 +314,27 @@ def portfolio():
     category = request.args.get('category', 'all')
     search = request.args.get('search', '')
     
-    # Get all projects, not just completed ones
+    # If standard unfiltered list, use fast memory cache
+    if category == 'all' and not search:
+        from sqlalchemy import case
+        projects = get_cached('all_projects', lambda: Project.query.order_by(
+            case((Project.completion_date.isnot(None), Project.completion_date), else_=Project.created_at).desc()
+        ).all(), ttl=60)
+        return render_template('portfolio.html', projects=projects, current_category=category, search=search)
+        
     query = Project.query
-    
     if category != 'all':
         query = query.filter(Project.category.contains(category))
-    
     if search:
         query = query.filter(
             Project.title.contains(search) |
             Project.location.contains(search) |
             Project.description.contains(search)
         )
-    
-    from sqlalchemy import desc, case
+    from sqlalchemy import case
     projects = query.order_by(
         case((Project.completion_date.isnot(None), Project.completion_date), else_=Project.created_at).desc()
     ).all()
-    
-    # If no projects, return empty list (will show "No projects found" message)
     return render_template('portfolio.html', projects=projects, current_category=category, search=search)
 
 @app.route('/portfolio/<int:project_id>')
@@ -336,7 +348,7 @@ def project_detail(project_id):
 
 @app.route('/services')
 def services():
-    services = Service.query.all()
+    services = get_cached('all_services', lambda: Service.query.all(), ttl=60)
     return render_template('services.html', services=services)
 
 @app.route('/materials')
@@ -344,40 +356,33 @@ def materials():
     category = request.args.get('category', 'all')
     finish_filter = request.args.get('finish', 'all')
     
-    query = Material.query
-    if category != 'all':
-        query = query.filter_by(type=category)
+    finishes = get_cached('all_finishes', lambda: Finish.query.all(), ttl=60)
     
-    materials = query.all()
-    finishes = Finish.query.all()
+    if category == 'all':
+        materials = get_cached('all_materials', lambda: Material.query.all(), ttl=60)
+    else:
+        materials = Material.query.filter_by(type=category).all()
+        
     return render_template('materials.html', materials=materials, finishes=finishes, 
                          current_category=category, current_finish=finish_filter)
 
 @app.route('/about')
 def about():
-    total_projects = Project.query.count()
-    residential_count = Project.query.filter_by(client_type='Residential').count()
-    commercial_count = Project.query.filter_by(client_type='Commercial').count()
-    
-    about_description = get_setting('about_description', '')
-    about_specialization = get_setting('about_specialization', '')
-    projects_completed = get_setting('projects_completed', '60+')
-    residential_projects = get_setting('residential_projects', '40')
-    commercial_projects = get_setting('commercial_projects', '20')
-    years_experience = get_setting('years_experience', '20+')
-    serving_text = get_setting('serving_text', '')
-    
-    return render_template('about.html', 
-                         total_projects=total_projects,
-                         residential_count=residential_count,
-                         commercial_count=commercial_count,
-                         about_description=about_description,
-                         about_specialization=about_specialization,
-                         projects_completed=projects_completed,
-                         residential_projects=residential_projects,
-                         commercial_projects=commercial_projects,
-                         years_experience=years_experience,
-                         serving_text=serving_text)
+    def get_about_data():
+        return {
+            'total_projects': Project.query.count(),
+            'residential_count': Project.query.filter_by(client_type='Residential').count(),
+            'commercial_count': Project.query.filter_by(client_type='Commercial').count(),
+            'about_description': get_setting('about_description', ''),
+            'about_specialization': get_setting('about_specialization', ''),
+            'projects_completed': get_setting('projects_completed', '60+'),
+            'residential_projects': get_setting('residential_projects', '40'),
+            'commercial_projects': get_setting('commercial_projects', '20'),
+            'years_experience': get_setting('years_experience', '20+'),
+            'serving_text': get_setting('serving_text', '')
+        }
+    data = get_cached('about_data', get_about_data, ttl=60)
+    return render_template('about.html', **data)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():

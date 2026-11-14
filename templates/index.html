@@ -70,29 +70,19 @@
                             <i class="bi bi-images me-1"></i>{{ project_images|length }} Photos
                         </span>
 
-                        {% if project_images and project_images|length > 1 %}
-                            <div class="project-image-carousel" data-carousel-id="project-{{ project.id }}">
-                                {% for image in project_images[:5] %}
-                                    <div class="carousel-image-item {% if loop.first %}active{% endif %}">
-                                        <img src="{{ url_for('static', filename='images/projects/' + image) }}" 
-                                              class="card-img-top project-media" 
-                                              alt="{{ project.title }}"
-                                              loading="lazy"
-                                              onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% elif project_images and project_images|length == 1 %}
+                        {% if project_images and project_images|length > 0 %}
                             <img src="{{ url_for('static', filename='images/projects/' + project_images[0]) }}" 
                                  class="card-img-top project-media" 
                                  alt="{{ project.title }}"
                                  loading="lazy"
+                                 decoding="async"
                                  onerror="this.src='{{ url_for('static', filename='images/projects/placeholder.jpg') }}'; this.onerror=null;">
                         {% else %}
                             <img src="{{ url_for('static', filename='images/projects/placeholder.jpg') }}" 
                                  class="card-img-top project-media" 
                                  alt="{{ project.title }}"
-                                 loading="lazy">
+                                 loading="lazy"
+                                 decoding="async">
                         {% endif %}
                         <div class="project-overlay">
                             <span class="btn btn-light shadow-sm">
