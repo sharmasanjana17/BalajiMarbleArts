@@ -7,6 +7,7 @@ import os
 import json
 import urllib.parse
 import urllib.request
+import gzip
 from werkzeug.utils import secure_filename
 
 # Helper function to safely parse JSON
@@ -40,11 +41,23 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # 1 year
 
 @app.after_request
 def add_performance_headers(response):
-    """Add browser caching headers to make page navigation ultra-fast"""
+    """Add browser caching headers and GZIP compression to make page navigation ultra-fast"""
     if request.path.startswith('/static/'):
         response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
     elif response.content_type and 'text/html' in response.content_type:
         response.headers['Cache-Control'] = 'no-cache, must-revalidate'
+        
+    # GZIP Compression for text responses (reduces HTML/CSS/JS payload by 75%)
+    accept_encoding = request.headers.get('Accept-Encoding', '')
+    if 'gzip' in accept_encoding.lower() and response.status_code == 200:
+        content_type = response.content_type or ''
+        if any(t in content_type for t in ['text/html', 'text/css', 'application/javascript', 'application/json']):
+            if len(response.data) > 500 and 'Content-Encoding' not in response.headers:
+                compressed_data = gzip.compress(response.data, compresslevel=6)
+                if len(compressed_data) < len(response.data):
+                    response.data = compressed_data
+                    response.headers['Content-Encoding'] = 'gzip'
+                    response.headers['Content-Length'] = len(compressed_data)
     return response
 
 # SocketIO initialization with threading for multi-threaded gunicorn

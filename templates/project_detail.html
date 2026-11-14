@@ -224,7 +224,7 @@
 
             <div class="row g-3" id="galleryGrid">
                 {% for image in gallery_imgs %}
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 {% if loop.index > 24 %}gallery-more-item d-none{% endif %}">
                     <div class="gallery-card position-relative overflow-hidden rounded-3 shadow-sm h-100" 
                          style="background: #f8f9fa; cursor: pointer; border: 1px solid rgba(0,0,0,0.08);"
                          data-image-index="{{ loop.index0 }}"
@@ -246,6 +246,14 @@
                 </div>
                 {% endfor %}
             </div>
+
+            {% if gallery_imgs|length > 24 %}
+            <div class="text-center mt-4 pt-2" id="loadMoreSection">
+                <button type="button" class="btn btn-outline-primary px-4 py-2 rounded-pill shadow-sm fw-semibold" onclick="document.querySelectorAll('.gallery-more-item').forEach(function(el){ el.classList.remove('d-none'); }); document.getElementById('loadMoreSection').style.display='none';">
+                    <i class="bi bi-images me-2"></i>Show All {{ gallery_imgs|length }} Real Work Photos ({{ gallery_imgs|length - 24 }} More)
+                </button>
+            </div>
+            {% endif %}
         </div>
         {% endif %}
 

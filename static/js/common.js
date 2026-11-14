@@ -39,6 +39,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Instant Navigation: Prefetch HTML on hover/touch before click
+(function() {
+    const prefetched = new Set();
+    function prefetch(url) {
+        if (!url || prefetched.has(url)) return;
+        try {
+            const u = new URL(url, window.location.origin);
+            if (u.origin === window.location.origin && !u.pathname.startsWith('/admin') && !u.pathname.startsWith('/static')) {
+                prefetched.add(url);
+                const l = document.createElement('link');
+                l.rel = 'prefetch';
+                l.href = url;
+                document.head.appendChild(l);
+            }
+        } catch (e) {}
+    }
+    document.addEventListener('mouseover', function(e) {
+        const a = e.target.closest('a');
+        if (a && a.href) prefetch(a.href);
+    }, { passive: true });
+    document.addEventListener('touchstart', function(e) {
+        const a = e.target.closest('a');
+        if (a && a.href) prefetch(a.href);
+    }, { passive: true });
+})();
+
 // Universal Scroll Fade In Animation
 const scrollObserverOptions = {
     threshold: 0.1,
