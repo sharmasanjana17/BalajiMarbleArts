@@ -24,26 +24,5 @@ document.addEventListener('DOMContentLoaded', function() {
     fadeElements.forEach(el => {
         observer.observe(el);
     });
-
-    // Stagger animation for timeline items
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    const timelineObserver = new IntersectionObserver(function(entries) {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateX(0)';
-                }, index * 150);
-                timelineObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.2 });
-
-    timelineItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-20px)';
-        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        timelineObserver.observe(item);
-    });
 });
 

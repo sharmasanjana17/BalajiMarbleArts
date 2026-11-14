@@ -86,6 +86,13 @@ i.text-warning,
     color: #ffffff !important;
 }
 
+/* Instant visibility - no artificial blank delay */
+.scroll-fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
+
 /* Reset */
 * {
     margin: 0;

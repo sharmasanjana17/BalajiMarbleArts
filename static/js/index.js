@@ -121,55 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, { threshold: 0.2 });
     
-    processSteps.forEach((step, index) => {
-        step.style.opacity = '0';
-        step.style.transform = 'translateY(20px)';
-        step.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        processObserver.observe(step);
-    });
-    
-    // Service Cards Animation
-    const serviceCards = document.querySelectorAll('.service-card');
-    const serviceObserver = new IntersectionObserver(function(entries) {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                entry.target.classList.add('animated');
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 100);
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    serviceCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        serviceObserver.observe(card);
-    });
-    
-    // Project Cards Animation
-    const projectCards = document.querySelectorAll('.project-card');
-    const projectObserver = new IntersectionObserver(function(entries) {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                entry.target.classList.add('animated');
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 100);
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    projectCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        projectObserver.observe(card);
-    });
-    
     // Project Image Carousel Auto-Slide
     const projectCarousels = document.querySelectorAll('.project-image-carousel');
     projectCarousels.forEach(carousel => {

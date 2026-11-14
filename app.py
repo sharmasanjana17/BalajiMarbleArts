@@ -1,10 +1,3 @@
-# Eventlet monkey patching must be executed before anything else for high-concurrency non-blocking I/O
-try:
-    import eventlet
-    eventlet.monkey_patch()
-except (ImportError, Exception):
-    pass
-
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
@@ -54,12 +47,8 @@ def add_performance_headers(response):
         response.headers['Cache-Control'] = 'no-cache, must-revalidate'
     return response
 
-# SocketIO initialization with fallback for Windows / Python environments
-try:
-    import eventlet
-    socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
-except (ImportError, Exception):
-    socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
+# SocketIO initialization with threading for multi-threaded gunicorn
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
 # File Upload Configuration
 UPLOAD_FOLDER = 'static'
