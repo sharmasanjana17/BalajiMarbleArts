@@ -418,6 +418,9 @@
     <!-- Common JavaScript (included in all pages) -->
     <script src="{{ url_for('static', filename='js/common.js') }}"></script>
     
+    <!-- Instant SPA Navigation Engine (0ms Page Transitions) -->
+    <script src="{{ url_for('static', filename='js/spa-navigation.js') }}"></script>
+    
     <!-- Page-specific JavaScript (block for each page to override) -->
     {% block page_js %}{% endblock %}
     
