@@ -1,3 +1,10 @@
+# Eventlet monkey patching must be executed before anything else for high-concurrency non-blocking I/O
+try:
+    import eventlet
+    eventlet.monkey_patch()
+except (ImportError, Exception):
+    pass
+
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
@@ -34,6 +41,18 @@ def safe_json_loads(json_string, default=None):
     return default
 
 app = Flask(__name__)
+
+# Aggressive browser caching for static assets (CSS, JS, 455 project photos)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # 1 year
+
+@app.after_request
+def add_performance_headers(response):
+    """Add browser caching headers to make page navigation ultra-fast"""
+    if request.path.startswith('/static/'):
+        response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+    elif response.content_type and 'text/html' in response.content_type:
+        response.headers['Cache-Control'] = 'no-cache, must-revalidate'
+    return response
 
 # SocketIO initialization with fallback for Windows / Python environments
 try:

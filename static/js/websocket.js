@@ -1,7 +1,7 @@
 // WebSocket functionality for real-time features
 
-// Initialize Socket.IO connection
-const socket = io();
+// Initialize Socket.IO connection with websocket priority
+const socket = io({ transports: ['websocket', 'polling'], timeout: 5000 });
 
 // Connection status
 let isConnected = false;
