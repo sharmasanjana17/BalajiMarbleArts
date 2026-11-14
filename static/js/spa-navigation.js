@@ -1,16 +1,15 @@
 /**
- * Balaji Marble Arts - Instant SPA Navigation Engine
- * Provides instant 0ms page transitions with client-side caching & smooth DOM swapping.
+ * Balaji Marble Arts - Ultra-Fast Instant SPA Engine
+ * Uses in-memory Map & SessionStorage caching for 0ms page changes.
  */
 
 (function() {
     'use strict';
 
-    // In-memory HTML & parsed page cache
-    const pageCache = new Map();
+    const memoryCache = new Map();
     let isNavigating = false;
 
-    // Create and inject luxury top loading bar
+    // Golden luxury progress bar
     const progressBar = document.createElement('div');
     progressBar.id = 'spa-progress-bar';
     progressBar.style.cssText = `
@@ -19,23 +18,20 @@
         left: 0;
         height: 3px;
         width: 0%;
-        background: linear-gradient(90deg, #C6A15B, #F4D89E, #DFBA73);
-        box-shadow: 0 0 10px rgba(198, 161, 91, 0.7);
+        background: linear-gradient(90deg, #C6A15B, #F4D89E, #C6A15B);
+        box-shadow: 0 0 10px rgba(198, 161, 91, 0.8);
         z-index: 999999;
-        transition: width 0.2s ease, opacity 0.25s ease;
+        transition: width 0.15s ease, opacity 0.2s ease;
         opacity: 0;
         pointer-events: none;
     `;
-    document.addEventListener('DOMContentLoaded', () => {
-        document.body.appendChild(progressBar);
-    });
 
     function startProgress() {
         progressBar.style.opacity = '1';
-        progressBar.style.width = '25%';
+        progressBar.style.width = '35%';
         setTimeout(() => {
-            if (isNavigating) progressBar.style.width = '70%';
-        }, 80);
+            if (isNavigating) progressBar.style.width = '75%';
+        }, 50);
     }
 
     function finishProgress() {
@@ -44,32 +40,53 @@
             progressBar.style.opacity = '0';
             setTimeout(() => {
                 progressBar.style.width = '0%';
-            }, 250);
-        }, 150);
+            }, 200);
+        }, 120);
     }
 
-    // Cache current page on startup
+    // Storage cache helpers
+    function getCached(url) {
+        if (memoryCache.has(url)) return memoryCache.get(url);
+        try {
+            const stored = sessionStorage.getItem('bma_spa_' + url);
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                memoryCache.set(url, parsed);
+                return parsed;
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function setCached(url, data) {
+        memoryCache.set(url, data);
+        try {
+            sessionStorage.setItem('bma_spa_' + url, JSON.stringify(data));
+        } catch (e) {}
+    }
+
     function cacheCurrentPage() {
-        const currentUrl = window.location.pathname + window.location.search;
+        const url = window.location.pathname + window.location.search;
         const main = document.querySelector('main.main-content');
-        if (main) {
-            pageCache.set(currentUrl, {
+        if (main && !getCached(url)) {
+            setCached(url, {
                 title: document.title,
                 html: main.innerHTML,
-                pageCss: Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(l => l.href)
+                stylesheets: Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(l => l.href)
             });
         }
     }
 
-    // Fetch and cache a page
+    // Fetch page HTML without custom headers to avoid CORS preflight
     async function fetchPage(url) {
-        if (pageCache.has(url)) {
-            return pageCache.get(url);
-        }
+        const cached = getCached(url);
+        if (cached) return cached;
 
         try {
             const res = await fetch(url, {
-                headers: { 'X-Requested-With': 'SPA-Fetch' }
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: { 'Accept': 'text/html' }
             });
 
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -81,10 +98,7 @@
             const newMain = doc.querySelector('main.main-content');
             if (!newMain) return null;
 
-            // Extract page-specific stylesheets
             const stylesheets = Array.from(doc.querySelectorAll('link[rel="stylesheet"]')).map(l => l.href);
-            
-            // Extract page-specific inline/external scripts
             const scripts = Array.from(doc.querySelectorAll('main script, body > script:not([src*="base"]):not([src*="bootstrap"])')).map(s => {
                 return { src: s.src, content: s.innerHTML };
             });
@@ -96,31 +110,28 @@
                 scripts: scripts
             };
 
-            pageCache.set(url, pageData);
+            setCached(url, pageData);
             return pageData;
-        } catch (e) {
-            console.warn('SPA Fetch error:', e);
+        } catch (err) {
+            console.warn('SPA fetch fallback:', err);
             return null;
         }
     }
 
-    // Re-initialize dynamic components on newly loaded page
+    // Re-initialize dynamic interactions on new page
     function initPageInteractions() {
-        // 1. Re-observe scroll fade-in elements
+        // Observe scroll fade-in
         const fadeElements = document.querySelectorAll('.scroll-fade-in');
         if (fadeElements.length > 0) {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
             fadeElements.forEach(el => observer.observe(el));
         }
 
-        // 2. Portfolio Page Filters & Search
+        // Portfolio filtering
         const filterButtons = document.querySelectorAll('.filter-btn');
         const searchInput = document.getElementById('searchInput');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
@@ -130,61 +141,33 @@
                 btn.addEventListener('click', function() {
                     filterButtons.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-                    const category = this.dataset.category || 'all';
-                    const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
-                    filterPortfolio(category, query);
+                    filterProjects();
                 });
             });
 
             if (searchInput) {
-                searchInput.addEventListener('input', function() {
-                    const activeBtn = document.querySelector('.filter-btn.active');
-                    const category = activeBtn ? activeBtn.dataset.category : 'all';
-                    filterPortfolio(category, this.value.toLowerCase().trim());
-                });
+                searchInput.addEventListener('input', filterProjects);
             }
 
-            function filterPortfolio(category, query) {
+            function filterProjects() {
+                const activeBtn = document.querySelector('.filter-btn.active');
+                const cat = (activeBtn ? activeBtn.dataset.category : 'all').toLowerCase();
+                const q = (searchInput ? searchInput.value : '').toLowerCase().trim();
+
                 portfolioItems.forEach(item => {
                     const itemCat = (item.dataset.category || '').toLowerCase();
                     const itemTitle = (item.dataset.title || '').toLowerCase();
                     const itemLoc = (item.dataset.location || '').toLowerCase();
 
-                    const matchesCat = category === 'all' || itemCat.includes(category.toLowerCase());
-                    const matchesQuery = !query || itemTitle.includes(query) || itemLoc.includes(query);
-
-                    item.style.display = (matchesCat && matchesQuery) ? '' : 'none';
-                });
-            }
-        }
-
-        // 3. FAQ Accordion & Category Filter
-        const faqSearch = document.getElementById('faqSearch');
-        const catFilter = document.getElementById('categoryFilter');
-        const faqItems = document.querySelectorAll('.faq-item');
-
-        if (faqItems.length > 0) {
-            function filterFaqs() {
-                const query = (faqSearch ? faqSearch.value : '').toLowerCase().trim();
-                const cat = (catFilter ? catFilter.value : 'all').toLowerCase();
-
-                faqItems.forEach(item => {
-                    const itemCat = (item.dataset.category || '').toLowerCase();
-                    const q = (item.dataset.question || '').toLowerCase();
-                    const a = (item.dataset.answer || '').toLowerCase();
-
                     const matchesCat = cat === 'all' || itemCat.includes(cat);
-                    const matchesQuery = !query || q.includes(query) || a.includes(query);
+                    const matchesQ = !q || itemTitle.includes(q) || itemLoc.includes(q);
 
-                    item.style.display = (matchesCat && matchesQuery) ? '' : 'none';
+                    item.style.display = (matchesCat && matchesQ) ? '' : 'none';
                 });
             }
-
-            if (faqSearch) faqSearch.addEventListener('input', filterFaqs);
-            if (catFilter) catFilter.addEventListener('change', filterFaqs);
         }
 
-        // 4. Close mobile sidebar overlay if open
+        // Close mobile sidebar and collapses
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
         if (sidebar && sidebar.classList.contains('active')) {
@@ -196,11 +179,9 @@
             navbarCollapse.classList.remove('show');
         }
 
-        // 5. Fire custom event for any other custom scripts
         window.dispatchEvent(new CustomEvent('page:swapped', { detail: { url: window.location.pathname } }));
     }
 
-    // Update active state in navbars
     function updateActiveNav(pathname) {
         document.querySelectorAll('.navbar-nav .nav-link, .sidebar-nav-link').forEach(link => {
             const href = link.getAttribute('href');
@@ -214,11 +195,10 @@
         });
     }
 
-    // Execute DOM swap to new page
+    // Instant Page Swap
     async function navigateTo(url, pushState = true) {
         if (isNavigating) return;
-        
-        // If current URL is identical, just scroll top
+
         if (window.location.pathname + window.location.search === url) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
@@ -229,31 +209,30 @@
 
         const mainContent = document.querySelector('main.main-content');
         if (mainContent) {
-            mainContent.style.transition = 'opacity 0.12s ease';
-            mainContent.style.opacity = '0.35';
+            mainContent.style.transition = 'opacity 0.08s ease';
+            mainContent.style.opacity = '0.4';
         }
 
         const pageData = await fetchPage(url);
 
         if (!pageData) {
-            // Fallback to normal navigation if fetch fails
             window.location.href = url;
             return;
         }
 
-        // Inject any new stylesheets
+        // Append new stylesheets if any
         if (pageData.stylesheets) {
             pageData.stylesheets.forEach(href => {
                 if (!document.querySelector(`link[href="${href}"]`)) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = href;
-                    document.head.appendChild(link);
+                    const l = document.createElement('link');
+                    l.rel = 'stylesheet';
+                    l.href = href;
+                    document.head.appendChild(l);
                 }
             });
         }
 
-        // Swap Content
+        // Swap Content Instantly
         if (mainContent) {
             mainContent.innerHTML = pageData.html;
             document.title = pageData.title;
@@ -265,24 +244,20 @@
             updateActiveNav(window.location.pathname);
             window.scrollTo({ top: 0, behavior: 'instant' });
 
-            // Fade back in
             requestAnimationFrame(() => {
                 mainContent.style.opacity = '1';
                 setTimeout(() => {
                     mainContent.style.transition = '';
-                }, 150);
+                }, 100);
             });
         }
 
-        // Execute any page-specific scripts
+        // Execute scripts
         if (pageData.scripts) {
             pageData.scripts.forEach(s => {
                 const scriptEl = document.createElement('script');
-                if (s.src) {
-                    scriptEl.src = s.src;
-                } else if (s.content) {
-                    scriptEl.textContent = s.content;
-                }
+                if (s.src) scriptEl.src = s.src;
+                else if (s.content) scriptEl.textContent = s.content;
                 document.body.appendChild(scriptEl);
             });
         }
@@ -292,53 +267,51 @@
         isNavigating = false;
     }
 
-    // Click handler for intercepting internal navigation
+    // Intercept clicks on links
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
         if (!link) return;
 
-        // Skip non-HTTP links, external links, downloads, new tabs
         const href = link.getAttribute('href');
         if (!href) return;
         if (href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('javascript:')) return;
         if (link.getAttribute('target') === '_blank' || link.hasAttribute('download')) return;
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
-        // Only handle internal links
         try {
-            const url = new URL(href, window.location.origin);
-            if (url.origin !== window.location.origin) return;
-            if (url.pathname.startsWith('/admin') || url.pathname.startsWith('/static')) return;
+            const targetUrl = new URL(href, window.location.origin);
+            if (targetUrl.origin !== window.location.origin) return;
+            if (targetUrl.pathname.startsWith('/admin') || targetUrl.pathname.startsWith('/static')) return;
 
             e.preventDefault();
-            navigateTo(url.pathname + url.search);
+            navigateTo(targetUrl.pathname + targetUrl.search);
         } catch (err) {}
     });
 
-    // Touch / Pointer head-start (fetches page into cache 100ms before click completes)
+    // Tap/Pointer prefetch (100ms head start before click completes)
     document.addEventListener('pointerdown', function(e) {
         const link = e.target.closest('a');
         if (!link) return;
         const href = link.getAttribute('href');
         if (!href || href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:')) return;
         try {
-            const url = new URL(href, window.location.origin);
-            if (url.origin === window.location.origin && !url.pathname.startsWith('/admin') && !url.pathname.startsWith('/static')) {
-                const target = url.pathname + url.search;
-                if (!pageCache.has(target)) {
-                    fetchPage(target); // Prefetch quietly into RAM
+            const targetUrl = new URL(href, window.location.origin);
+            if (targetUrl.origin === window.location.origin && !targetUrl.pathname.startsWith('/admin')) {
+                const path = targetUrl.pathname + targetUrl.search;
+                if (!getCached(path)) {
+                    fetchPage(path);
                 }
             }
         } catch (err) {}
     }, { passive: true });
 
-    // Handle Browser Back / Forward buttons
-    window.addEventListener('popstate', function(e) {
+    // Browser back / forward buttons
+    window.addEventListener('popstate', function() {
         const url = window.location.pathname + window.location.search;
         navigateTo(url, false);
     });
 
-    // Background pre-cache of all main navigation routes (runs when idle)
+    // Quiet background preload of all main routes
     function backgroundPreload() {
         const coreRoutes = [
             '/',
@@ -354,26 +327,32 @@
         let index = 0;
         function loadNext() {
             if (index >= coreRoutes.length) return;
-            const route = coreRoutes[index++];
-            if (route !== window.location.pathname && !pageCache.has(route)) {
-                fetchPage(route).then(() => {
-                    setTimeout(loadNext, 120); // Quiet 120ms interval
+            const r = coreRoutes[index++];
+            if (r !== window.location.pathname && !getCached(r)) {
+                fetchPage(r).then(() => {
+                    setTimeout(loadNext, 100);
                 });
             } else {
                 loadNext();
             }
         }
-
-        // Start 800ms after initial page load
-        setTimeout(loadNext, 800);
+        setTimeout(loadNext, 500);
     }
 
-    // Startup initialization
-    window.addEventListener('DOMContentLoaded', () => {
+    // Immediate and infallible initialization
+    function init() {
+        if (!document.body.contains(progressBar)) {
+            document.body.appendChild(progressBar);
+        }
         cacheCurrentPage();
         initPageInteractions();
         backgroundPreload();
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 
 })();
-

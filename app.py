@@ -462,12 +462,12 @@ def testimonials():
 
 @app.route('/blog')
 def blog():
-    posts = BlogPost.query.filter(BlogPost.published_date <= datetime.now().date()).order_by(BlogPost.published_date.desc()).all()
+    posts = get_cached('all_blog_posts', lambda: BlogPost.query.filter(BlogPost.published_date <= datetime.now().date()).order_by(BlogPost.published_date.desc()).all(), ttl=60)
     return render_template('blog.html', posts=posts)
 
 @app.route('/blog/<int:post_id>')
 def blog_post(post_id):
-    post = BlogPost.query.get_or_404(post_id)
+    post = Project.query.get(post_id) if False else BlogPost.query.get_or_404(post_id)
     related_posts = BlogPost.query.filter(
         BlogPost.id != post_id,
         BlogPost.category == post.category
@@ -477,12 +477,14 @@ def blog_post(post_id):
 @app.route('/faq')
 def faq():
     category = request.args.get('category', 'all')
-    query = FAQ.query
-    if category != 'all':
-        query = query.filter_by(category=category)
+    if category == 'all':
+        faqs = get_cached('all_faqs', lambda: FAQ.query.order_by(FAQ.order).all(), ttl=60)
+        categories = get_cached('all_faq_cats', lambda: [c[0] for c in db.session.query(FAQ.category).distinct().all() if c[0]], ttl=60)
+        return render_template('faq.html', faqs=faqs, categories=categories, current_category=category)
+    query = FAQ.query.filter_by(category=category)
     faqs = query.order_by(FAQ.order).all()
-    categories = db.session.query(FAQ.category).distinct().all()
-    return render_template('faq.html', faqs=faqs, categories=[c[0] for c in categories], current_category=category)
+    categories = [c[0] for c in db.session.query(FAQ.category).distinct().all() if c[0]]
+    return render_template('faq.html', faqs=faqs, categories=categories, current_category=category)
 
 # ============================================
 # ADMIN ROUTES
