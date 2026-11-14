@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BALAJI MARBLE ARTS — Brand Identity & Master Logo Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --bg-card: #181818;
+      --bg-elevated: #222222;
+      --gold-primary: #C6A15B;
+      --gold-light: #F4D89E;
+      --gold-dark: #8C6A24;
+      --ivory: #F4F0E7;
+      --text-muted: #9E9E9E;
+      --border-gold: rgba(198, 161, 91, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: #E0E0E0;
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+
+    /* Header & Hero */
+    header {
+      background: radial-gradient(circle at 50% 20%, rgba(198, 161, 91, 0.15), transparent 70%), #151515;
+      border-bottom: 1px solid var(--border-gold);
+      padding: 60px 20px 50px;
+      text-align: center;
+      position: relative;
+    }
+    .badge-tag {
+      display: inline-block;
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      padding: 4px 16px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      background: rgba(198, 161, 91, 0.08);
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 42px;
+      letter-spacing: 6px;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .hero-sub {
+      color: var(--ivory);
+      font-size: 15px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 24px;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #F4D89E, #C6A15B);
+      color: #151515;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 26px;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px rgba(198, 161, 91, 0.25);
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(198, 161, 91, 0.4);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--gold-light);
+      border: 1px solid var(--gold-primary);
+      box-shadow: none;
+    }
+    .btn-secondary:hover {
+      background: rgba(198, 161, 91, 0.12);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 50px 20px 0;
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-gold);
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    /* Controls: Background Switcher */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      padding: 14px 20px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    .bg-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .bg-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-right: 6px;
+    }
+    .bg-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: 1px solid #444;
+      cursor: pointer;
+      background: #252525;
+      color: #DDD;
+      transition: all 0.2s;
+    }
+    .bg-btn.active {
+      border-color: var(--gold-primary);
+      background: var(--gold-primary);
+      color: #151515;
+      font-weight: 600;
+    }
+
+    /* Grid of Logo Assets */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.25s;
+    }
+    .card:hover {
+      border-color: var(--gold-primary);
+    }
+    .card-preview {
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: #151515;
+      transition: background 0.3s;
+      position: relative;
+    }
+    .card-preview img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+    .card-info {
+      padding: 18px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--bg-card);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+    .card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .card-links {
+      display: flex;
+      gap: 10px;
+    }
+    .link-btn {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .link-svg {
+      background: rgba(198, 161, 91, 0.15);
+      color: var(--gold-light);
+      border: 1px solid var(--border-gold);
+    }
+    .link-svg:hover {
+      background: var(--gold-primary);
+      color: #151515;
+    }
+    .link-png {
+      background: #252525;
+      color: #DDD;
+      border: 1px solid #444;
+    }
+    .link-png:hover {
+      background: #353535;
+      color: #FFF;
+    }
+
+    /* Colors Section */
+    .color-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+    .swatch {
+      background: var(--bg-card);
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .swatch-color {
+      height: 110px;
+    }
+    .swatch-body {
+      padding: 16px;
+    }
+    .swatch-title {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+    .swatch-val {
+      font-family: monospace;
+      font-size: 12px;
+      color: #BBB;
+      margin-bottom: 4px;
+    }
+
+    /* Concept Comparison Section */
+    .concept-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .concept-card.winner {
+      border: 2px solid var(--gold-primary);
+      background: radial-gradient(circle at 10% 50%, rgba(198, 161, 91, 0.1), transparent), var(--bg-card);
+    }
+    .concept-img {
+      background: #151515;
+      border-radius: 6px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #333;
+    }
+    .concept-img img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .concept-card { grid-template-columns: 1fr; }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge-tag">Luxury Brand Identity System</div>
+    <h1>BALAJI MARBLE ARTS</h1>
+    <div class="hero-sub">Natural Stone, Marble & Granite Contractors</div>
+    <div class="hero-actions">
+      <a href="guidelines/Balaji_Marble_Arts_Brand_Guidelines.pdf" class="btn" download>
+        Download Guidelines PDF
+      </a>
+      <a href="#primary-logos" class="btn btn-secondary">
+        Browse Logo Assets
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Concepts Overview -->
+    <h2 class="section-title">Design Concept Evaluation</h2>
+    <div class="section-desc">Three bespoke architectural directions were created. Concept 01 was selected as the timeless winner.</div>
+
+    <div class="concept-card winner">
+      <div class="concept-img">
+        <img src="concepts/concept-1-architectural-pillar.svg" alt="Concept 1">
+      </div>
+      <div>
+        <div class="badge-tag" style="margin-bottom: 8px;">Selected Winner Concept</div>
+        <h3 style="font-family:'Cinzel',serif; font-size: 20px; color: var(--gold-light); margin-bottom: 8px;">Concept 01: The Architectural Pillar & Keystone Monogram</h3>
+        <p style="color: #BBB; font-size: 13.5px; margin-bottom: 12px;">
+          Integrates an authentic Doric fluted stone column on the left forming the vertical stem of 'B', intertwined with precision architectural arches and a chiseled keystone chevron forming the 'M'. Grounded by monumental stone plinths and diamond cut pins.
+        </p>
+        <p style="color: var(--gold-primary); font-size: 12.5px; font-weight: 500;">
+          Verdict: Highest architectural heritage, luxury balance, and flawless scalability across CNC stone inlays, laser engraving, and digital screens.
+        </p>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="concept-img">
+        <img src="concepts/concept-2-geometric-slab.svg" alt="Concept 2">
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif; font-size: 18px; color: #DDD; margin-bottom: 8px;">Concept 02: Geometric Bookmatched Marble Slabs</h3>
+        <p style="color: #999; font-size: 13px;">
+          Features 45-degree isometric beveled stone slabs forming a modern diamond B/M monogram. While ultra-contemporary, it leans toward industrial tile fabrication rather than artisanal luxury stonemasonry.
+        </p>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="concept-img">
+        <img src="concepts/concept-3-monumental-arch.svg" alt="Concept 3">
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif; font-size: 18px; color: #DDD; margin-bottom: 8px;">Concept 03: Monumental Roman Triumphal Archway</h3>
+        <p style="color: #999; font-size: 13px;">
+          Encompasses a grand classical vault framing intertwined calligraphic serif letterforms. Highly stately, but the visual density diminishes legibility at small mobile and favicon resolutions.
+        </p>
+      </div>
+    </div>
+
+    <!-- Background Switcher Toolbar -->
+    <div class="toolbar" style="margin-top: 50px;">
+      <span style="font-size: 13px; font-weight: 600; color: var(--gold-light); text-transform: uppercase; letter-spacing: 1px;">Preview Canvas Background</span>
+      <div class="bg-buttons">
+        <span class="bg-label">Switch:</span>
+        <button class="bg-btn active" onclick="setBg('#151515')">Obsidian Black (#151515)</button>
+        <button class="bg-btn" onclick="setBg('#FFFFFF')">Pure White (#FFFFFF)</button>
+        <button class="bg-btn" onclick="setBg('#2A2A2A')">Slate Charcoal (#2A2A2A)</button>
+      </div>
+    </div>
+
+    <!-- PRIMARY LOGOS -->
+    <h2 class="section-title" id="primary-logos">Primary Logo Suite</h2>
+    <div class="section-desc">Centered luxury lockup for storefront signage, website hero, marketing collateral, and official envelopes.</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-preview">
+          <img src="final/primary/balaji-logo-primary-gold.svg" alt="Primary Gold">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Primary Logo — Metallic Gold</div>
+            <div class="card-meta">Full luxury metallic gradient on transparent canvas</div>
+          </div>
+          <div class="card-links">
+            <a href="final/primary/balaji-logo-primary-gold.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-logo-primary-gold.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-preview" style="background:#FFF;">
+          <img src="final/primary/balaji-logo-primary-dark.svg" alt="Primary Dark">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Primary Logo — Obsidian Black</div>
+            <div class="card-meta">Solid #151515 for official white paper, invoices & contracts</div>
+          </div>
+          <div class="card-links">
+            <a href="final/primary/balaji-logo-primary-dark.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-logo-primary-dark.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-preview">
+          <img src="final/primary/balaji-logo-primary-white.svg" alt="Primary White">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Primary Logo — Ivory White</div>
+            <div class="card-meta">Crisp #FFFFFF / #F4F0E7 for dark granite photography</div>
+          </div>
+          <div class="card-links">
+            <a href="final/primary/balaji-logo-primary-white.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-logo-primary-white.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HORIZONTAL LOGOS -->
+    <h2 class="section-title">Horizontal Logo Suite</h2>
+    <div class="section-desc">Compact side-by-side format tailored for website navbar header, vehicle branding, and fascia signboards.</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-preview">
+          <img src="final/horizontal/balaji-logo-horizontal-gold.svg" alt="Horizontal Gold">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Horizontal Logo — Metallic Gold</div>
+            <div class="card-meta">Side-by-side emblem & logotype in gold gradient</div>
+          </div>
+          <div class="card-links">
+            <a href="final/horizontal/balaji-logo-horizontal-gold.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-logo-horizontal-gold.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-preview" style="background:#FFF;">
+          <img src="final/horizontal/balaji-logo-horizontal-dark.svg" alt="Horizontal Dark">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Horizontal Logo — Obsidian Black</div>
+            <div class="card-meta">Clean monochrome black for corporate letterhead & fax</div>
+          </div>
+          <div class="card-links">
+            <a href="final/horizontal/balaji-logo-horizontal-dark.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-logo-horizontal-dark.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-preview">
+          <img src="final/horizontal/balaji-logo-horizontal-white.svg" alt="Horizontal White">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Horizontal Logo — Ivory White</div>
+            <div class="card-meta">Pure white for dark web header overlays & vehicle wraps</div>
+          </div>
+          <div class="card-links">
+            <a href="final/horizontal/balaji-logo-horizontal-white.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-logo-horizontal-white.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ICON & MEDALLION -->
+    <h2 class="section-title">Icon-Only & Luxury Medallion Monograms</h2>
+    <div class="section-desc">Standalone 1:1 emblems for profile pictures, favicons, app icons, wax seals, and brass showroom plaques.</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-preview">
+          <img src="final/icon/balaji-monogram-gold.svg" alt="Monogram Gold" style="max-height:160px;">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Monogram Icon — Metallic Gold</div>
+            <div class="card-meta">Square 512x512 emblem on transparent background</div>
+          </div>
+          <div class="card-links">
+            <a href="final/icon/balaji-monogram-gold.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-monogram-gold.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-preview">
+          <img src="final/icon/balaji-monogram-badge.svg" alt="Medallion Badge" style="max-height:160px;">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Luxury Medallion Circular Badge</div>
+            <div class="card-meta">Curved embossed typography, double gold knurling & stars</div>
+          </div>
+          <div class="card-links">
+            <a href="final/icon/balaji-monogram-badge.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-monogram-badge.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-preview" style="background:#FFF;">
+          <img src="final/icon/balaji-monogram-dark.svg" alt="Monogram Dark" style="max-height:160px;">
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">Monogram Icon — Obsidian Black</div>
+            <div class="card-meta">Stamps, watermark embossing & monochrome printing</div>
+          </div>
+          <div class="card-links">
+            <a href="final/icon/balaji-monogram-dark.svg" class="link-btn link-svg" download>SVG Vector</a>
+            <a href="png/balaji-monogram-dark.png" class="link-btn link-png" download>PNG Preview</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PALETTE -->
+    <h2 class="section-title">Brand Color Palette</h2>
+    <div class="section-desc">Carefully calibrated palette reflecting natural marble, brass inlays, and architectural granite.</div>
+    <div class="color-swatches">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #151515; border-bottom: 2px solid var(--gold-primary);"></div>
+        <div class="swatch-body">
+          <div class="swatch-title">Obsidian Black</div>
+          <div class="swatch-val">HEX: #151515</div>
+          <div class="swatch-val">RGB: 21, 21, 21</div>
+          <div class="swatch-val">CMYK: 70, 65, 60, 85</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background: #C6A15B;"></div>
+        <div class="swatch-body">
+          <div class="swatch-title">Metallic Gold</div>
+          <div class="swatch-val">HEX: #C6A15B</div>
+          <div class="swatch-val">RGB: 198, 161, 91</div>
+          <div class="swatch-val">CMYK: 20, 30, 75, 10</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background: #F4D89E;"></div>
+        <div class="swatch-body">
+          <div class="swatch-title">Champagne Gold</div>
+          <div class="swatch-val">HEX: #F4D89E</div>
+          <div class="swatch-val">RGB: 244, 216, 158</div>
+          <div class="swatch-val">CMYK: 5, 15, 45, 0</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background: #F4F0E7; border: 1px solid #DDD;"></div>
+        <div class="swatch-body">
+          <div class="swatch-title">Ivory Statuario</div>
+          <div class="swatch-val">HEX: #F4F0E7</div>
+          <div class="swatch-val">RGB: 244, 240, 231</div>
+          <div class="swatch-val">CMYK: 2, 3, 7, 0</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function setBg(color) {
+      document.querySelectorAll('.card-preview').forEach(el => {
+        el.style.backgroundColor = color;
+      });
+      document.querySelectorAll('.bg-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.innerText.includes(color)) {
+          btn.classList.add('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+

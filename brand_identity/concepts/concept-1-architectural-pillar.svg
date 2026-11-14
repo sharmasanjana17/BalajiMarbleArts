@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="100%" height="100%">
+  <defs>
+    <!-- Metallic Gold Linear Gradient -->
+    <linearGradient id="goldLinear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F4D89E" />
+      <stop offset="25%" stop-color="#DFBA73" />
+      <stop offset="50%" stop-color="#C6A15B" />
+      <stop offset="75%" stop-color="#E5C583" />
+      <stop offset="100%" stop-color="#9E7B35" />
+    </linearGradient>
+
+    <!-- Metallic Gold Vertical Gradient -->
+    <linearGradient id="goldVertical" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F7E2B5" />
+      <stop offset="35%" stop-color="#DFBA73" />
+      <stop offset="70%" stop-color="#C6A15B" />
+      <stop offset="100%" stop-color="#8C6A24" />
+    </linearGradient>
+
+    <!-- Subtle Radial Glow -->
+    <radialGradient id="ambientGlow" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#C6A15B" stop-opacity="0.12" />
+      <stop offset="60%" stop-color="#C6A15B" stop-opacity="0.02" />
+      <stop offset="100%" stop-color="#151515" stop-opacity="0" />
+    </radialGradient>
+
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background Presentation Canvas -->
+  <rect width="900" height="650" fill="#151515" />
+  <circle cx="450" cy="230" r="280" fill="url(#ambientGlow)" />
+
+  <!-- Monogram Symbol: The Architectural Pillar & Interlocking Marble Monogram (B + M) -->
+  <g transform="translate(450, 205)" filter="url(#subtleShadow)">
+    <!-- Architectural Plinth / Foundation Base -->
+    <path d="M -95, 115 L 95, 115 L 85, 122 L -85, 122 Z" fill="url(#goldLinear)" opacity="0.6" />
+    <line x1="-70" y1="110" x2="70" y2="110" stroke="url(#goldLinear)" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Left Architectural Pillar / Stem (Fluted Marble Column) -->
+    <!-- Column Base -->
+    <path d="M -68, 105 L -36, 105 L -40, 95 L -64, 95 Z" fill="url(#goldVertical)" />
+    <!-- Main Pillar Shaft with Dual Marble Vein Flutes -->
+    <path d="M -64, 95 L -40, 95 L -40, -90 L -64, -90 Z" fill="url(#goldVertical)" />
+    <!-- Fluting Inset Lines -->
+    <line x1="-56" y1="90" x2="-56" y2="-85" stroke="#151515" stroke-width="2" opacity="0.55" />
+    <line x1="-48" y1="90" x2="-48" y2="-85" stroke="#F7E2B5" stroke-width="1.2" opacity="0.6" />
+    <!-- Column Capital (Classical Cornice) -->
+    <path d="M -68, -90 L -36, -90 L -32, -100 L -72, -100 Z" fill="url(#goldVertical)" />
+
+    <!-- Central & Right Monogram Structure: Architectural 'B' & 'M' Chevron Slabs -->
+    <!-- Top Geometric Arch / Upper Bowl of 'B' -->
+    <path d="M -32, -90 
+             L 28, -90 
+             C 58, -90 76, -72 76, -42 
+             C 76, -16 58, -2 30, -2 
+             L -32, -2 Z
+             M -16, -74
+             L 24, -74
+             C 44, -74 58, -62 58, -42
+             C 58, -22 44, -18 24, -18
+             L -16, -18 Z" 
+          fill="url(#goldLinear)" />
+
+    <!-- Bottom Geometric Arch / Lower Bowl of 'B' (Interlocking with M) -->
+    <path d="M -32, -2 
+             L 36, -2 
+             C 68, -2 88, 18 88, 52 
+             C 88, 84 66, 104 32, 104 
+             L -32, 104 Z
+             M -16, 14
+             L 30, 14
+             C 50, 14 68, 28 68, 52
+             C 68, 76 50, 88 30, 88
+             L -16, 88 Z" 
+          fill="url(#goldVertical)" />
+
+    <!-- Center Architectural Keystone & Chiseled M-Chevron Inlay -->
+    <path d="M -16, -2 
+             L 18, -2 
+             L 42, 38 
+             L 66, -2 
+             L 76, -2 
+             L 46, 52 
+             L 38, 52 Z" 
+          fill="url(#goldLinear)" opacity="0.9" />
+
+    <!-- Fine Diamond Cut Accent / Marble Slab Joint -->
+    <polygon points="45,-98 52,-90 45,-82 38,-90" fill="#F7E2B5" />
+    <polygon points="45,108 52,116 45,124 38,116" fill="#F7E2B5" />
+  </g>
+
+  <!-- Typography: BALAJI MARBLE ARTS -->
+  <g transform="translate(450, 420)" text-anchor="middle">
+    <!-- Brand Primary Name: BALAJI -->
+    <text y="0" 
+          fill="url(#goldVertical)" 
+          font-family="'Cinzel', 'Playfair Display', 'Cormorant Garamond', 'Trajan Pro', 'Georgia', serif" 
+          font-size="44" 
+          font-weight="700" 
+          letter-spacing="14" 
+          filter="url(#subtleShadow)">BALAJI</text>
+
+    <!-- Luxury Geometric Divider -->
+    <g transform="translate(0, 24)">
+      <line x1="-180" y1="0" x2="-25" y2="0" stroke="url(#goldLinear)" stroke-width="1.2" opacity="0.7" />
+      <!-- Central Architectural Diamond -->
+      <polygon points="0,-5 6,0 0,5 -6,0" fill="#DFBA73" />
+      <circle cx="-12" cy="0" r="1.5" fill="#C6A15B" />
+      <circle cx="12" cy="0" r="1.5" fill="#C6A15B" />
+      <line x1="25" y1="0" x2="180" y2="0" stroke="url(#goldLinear)" stroke-width="1.2" opacity="0.7" />
+    </g>
+
+    <!-- Secondary Descriptor: MARBLE ARTS -->
+    <text y="58" 
+          fill="#F4F0E7" 
+          font-family="'Montserrat', 'Helvetica Neue', 'Arial', sans-serif" 
+          font-size="16" 
+          font-weight="400" 
+          letter-spacing="10" 
+          opacity="0.95">MARBLE ARTS</text>
+
+    <!-- Heritage Subtext -->
+    <text y="92" 
+          fill="#C6A15B" 
+          font-family="'Montserrat', 'Helvetica Neue', 'Arial', sans-serif" 
+          font-size="9" 
+          font-weight="500" 
+          letter-spacing="5" 
+          opacity="0.75">EST. 2004  •  LUXURY NATURAL STONE</text>
+  </g>
+
+  <!-- Concept Label (For Presentation) -->
+  <text x="450" y="615" 
+        text-anchor="middle" 
+        fill="#C6A15B" 
+        font-family="'Montserrat', sans-serif" 
+        font-size="10" 
+        letter-spacing="3" 
+        opacity="0.5">CONCEPT 1  |  THE ARCHITECTURAL PILLAR &amp; KEYSTONE</text>
+</svg>
+

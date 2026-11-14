@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/logo-icon.svg') }}">
     <title>{% block title %}{{ business_name }} - Professional Marble Installation in {{ business_location }}{% endblock %}</title>
     
     <!-- Bootstrap CSS -->
@@ -44,9 +45,9 @@
     <!-- ChatGPT-Style Sidebar -->
     <aside id="sidebar" class="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-brand">
-                <i class="bi bi-palette"></i>
-                {{ business_name }}
+            <div class="sidebar-brand d-flex align-items-center">
+                <img src="{{ url_for('static', filename='images/logo-icon.svg') }}" alt="Logo" height="30" class="me-2">
+                <span>{{ business_name }}</span>
             </div>
             <button id="sidebarClose" class="sidebar-close-btn" aria-label="Close Sidebar">
                 <i class="bi bi-x-lg"></i>
@@ -153,7 +154,10 @@
     <!-- Navigation (common) -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">{{ business_name }}</a>
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/logo-icon.svg') }}" alt="Balaji Marble Arts" height="34" class="d-inline-block align-text-middle me-2">
+                <span>{{ business_name }}</span>
+            </a>
             <div class="d-flex align-items-center d-lg-none">
                 <button class="btn btn-outline-secondary btn-sm me-2 theme-settings-trigger" title="Appearance Settings" aria-label="Theme Settings">
                     <i class="bi bi-palette"></i>
@@ -213,7 +217,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <h5 class="fw-bold">{{ business_name }}</h5>
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ url_for('static', filename='images/logo-icon.svg') }}" alt="Balaji Marble Arts" height="36" class="me-2">
+                        <h5 class="fw-bold mb-0">{{ business_name }}</h5>
+                    </div>
                     <p class="mb-3">Professional marble installation services in {{ business_location }}. Owned by {{ owner_name }}.</p>
                     <div class="social-links">
                         <a href="#" class="social-link social-facebook" aria-label="Facebook"><i class="bi bi-facebook"></i></a>

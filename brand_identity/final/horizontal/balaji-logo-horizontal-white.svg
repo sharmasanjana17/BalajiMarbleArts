@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="whiteLinear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#F4F0E7" />
+      <stop offset="100%" stop-color="#E2DDD2" />
+    </linearGradient>
+  </defs>
+  <!-- BALAJI MARBLE ARTS - HORIZONTAL LOGO (WHITE) -->
+  <g id="logo-horizontal-root">
+    <!-- Architectural Monogram Symbol (Doric Pillar & Keystone BM Monogram) -->
+    <g transform="translate(130, 100) scale(0.62)">
+      <!-- Plinth Foundation Base -->
+      <path d="M -95, 115 L 95, 115 L 85, 122 L -85, 122 Z" fill="#FFFFFF" opacity="0.75" />
+      <line x1="-70" y1="110" x2="70" y2="110" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+
+      <!-- Left Architectural Pillar / Fluted Marble Column -->
+      <!-- Column Base Plinth -->
+      <path d="M -68, 105 L -36, 105 L -40, 95 L -64, 95 Z" fill="#F4F0E7" />
+      <!-- Main Column Shaft -->
+      <path d="M -64, 95 L -40, 95 L -40, -90 L -64, -90 Z" fill="#F4F0E7" />
+      <!-- Flute Groove Lines -->
+      <line x1="-56" y1="90" x2="-56" y2="-85" stroke="#151515" stroke-width="2" opacity="0.4" />
+      <line x1="-48" y1="90" x2="-48" y2="-85" stroke="#E8E2D5" stroke-width="1.2" opacity="0.65" />
+      <!-- Capital / Cornice -->
+      <path d="M -68, -90 L -36, -90 L -32, -100 L -72, -100 Z" fill="#F4F0E7" />
+
+      <!-- Central & Right Monogram Structure: Architectural 'B' & 'M' Chevron Slabs -->
+      <!-- Top Geometric Arch / Upper Bowl of 'B' -->
+      <path d="M -32, -90 
+               L 28, -90 
+               C 58, -90 76, -72 76, -42 
+               C 76, -16 58, -2 30, -2 
+               L -32, -2 Z
+               M -16, -74
+               L 24, -74
+               C 44, -74 58, -62 58, -42
+               C 58, -22 44, -18 24, -18
+               L -16, -18 Z" 
+            fill="#FFFFFF" />
+
+      <!-- Bottom Geometric Arch / Lower Bowl of 'B' (Interlocking with M) -->
+      <path d="M -32, -2 
+               L 36, -2 
+               C 68, -2 88, 18 88, 52 
+               C 88, 84 66, 104 32, 104 
+               L -32, 104 Z
+               M -16, 14
+               L 30, 14
+               C 50, 14 68, 28 68, 52
+               C 68, 76 50, 88 30, 88
+               L -16, 88 Z" 
+            fill="#F4F0E7" />
+
+      <!-- Center Architectural Keystone & Chiseled M-Chevron Inlay -->
+      <path d="M -16, -2 
+               L 18, -2 
+               L 42, 38 
+               L 66, -2 
+               L 76, -2 
+               L 46, 52 
+               L 38, 52 Z" 
+            fill="#FFFFFF" opacity="0.95" />
+
+      <!-- Fine Diamond Cut Accent Stones / Slab Joint Pins -->
+      <polygon points="45,-98 52,-90 45,-82 38,-90" fill="#FFFFFF" />
+      <polygon points="45,108 52,116 45,124 38,116" fill="#FFFFFF" />
+    </g>
+
+    <!-- Vertical Architectural Divider Line -->
+    <line x1="230" y1="28" x2="230" y2="172" stroke="#FFFFFF" stroke-width="1.5" opacity="0.45" />
+    <polygon points="230,22 233,26 230,30 227,26" fill="#FFFFFF" />
+    <polygon points="230,170 233,174 230,178 227,174" fill="#FFFFFF" />
+
+    <!-- Typography Block -->
+    <g transform="translate(265, 0)">
+      <!-- Primary: BALAJI -->
+      <text x="0" y="98" 
+            fill="#FFFFFF" 
+            font-family="'Cinzel', 'Trajan Pro', 'Playfair Display', 'Georgia', serif" 
+            font-size="56" 
+            font-weight="700" 
+            letter-spacing="14" 
+            style="text-transform: uppercase;">BALAJI</text>
+
+      <!-- Sub: MARBLE ARTS -->
+      <text x="2" y="142" 
+            fill="#F4F0E7" 
+            font-family="'Montserrat', 'Cinzel', 'Helvetica Neue', sans-serif" 
+            font-size="18" 
+            font-weight="500" 
+            letter-spacing="11" 
+            style="text-transform: uppercase;">MARBLE ARTS</text>
+
+      <!-- Sub Accent Rule -->
+      <g transform="translate(2, 160)">
+        <line x1="0" y1="0" x2="330" y2="0" stroke="#FFFFFF" stroke-width="1.2" opacity="0.75" />
+        <polygon points="340,0 344,-4 348,0 344,4" fill="#FFFFFF" />
+      </g>
+    </g>
+  </g>
+</svg>
